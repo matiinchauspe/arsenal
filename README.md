@@ -1,5 +1,7 @@
 # Arsenal
 
+![An open field case labeled Arsenal stays outside the work. Its tools cross into a code editor, a terminal, and a study desk.](assets/arsenal-banner.jpg)
+
 Portable skills to carry into any project or harness. Each skill lives in `skills/<name>/SKILL.md`,
 the open Agent Skills format, so any agent that reads `SKILL.md` can use it.
 
