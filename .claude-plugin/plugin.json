@@ -1,0 +1,10 @@
+{
+  "name": "arsenal",
+  "version": "0.1.0",
+  "description": "Portable skills to carry into any project or harness.",
+  "author": {
+    "name": "Matias Inchauspe"
+  },
+  "repository": "https://github.com/matiinchauspe/arsenal",
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "arsenal",
+  "owner": {
+    "name": "Matias Inchauspe"
+  },
+  "metadata": {
+    "description": "Portable skills to carry into any project or harness."
+  },
+  "plugins": [
+    {
+      "name": "arsenal",
+      "source": "./",
+      "description": "Portable skills to carry into any project or harness."
+    }
+  ]
+}
