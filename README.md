@@ -1,6 +1,11 @@
-# Arsenal
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/arsenal-dark.svg">
+    <img src="assets/arsenal-light.svg" alt="Arsenal" width="200">
+  </picture>
+</p>
 
-![An open field case labeled Arsenal stays outside the work. Its tools cross into a code editor, a terminal, and a study desk.](assets/arsenal-banner.jpg)
+<h1 align="center">Arsenal</h1>
 
 Portable skills to carry into any project or harness. Each skill lives in `skills/<name>/SKILL.md`,
 the open Agent Skills format, so any agent that reads `SKILL.md` can use it.
