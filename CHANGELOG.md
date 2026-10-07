@@ -4,7 +4,7 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
-## [Unreleased]
+## [0.2.1] - 2026-10-07
 
 ### Fixed
 
@@ -56,5 +56,6 @@ The first release: Arsenal is a Claude Code plugin marketplace that ships one pl
   - `GLOSSARY.md` is part of the workspace. The upstream skill ships its format but never links it.
   - Lessons follow the language of the conversation.
 
+[0.2.1]: https://github.com/matiinchauspe/arsenal/releases/tag/v0.2.1
 [0.2.0]: https://github.com/matiinchauspe/arsenal/releases/tag/v0.2.0
 [0.1.0]: https://github.com/matiinchauspe/arsenal/releases/tag/v0.1.0
