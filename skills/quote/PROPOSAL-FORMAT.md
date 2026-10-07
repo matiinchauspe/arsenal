@@ -8,7 +8,7 @@
 2. **Before anything else (Phase 0).** Each fix as problem → risk to the client → fix, in plain words. Warranty items say they are fixed at no charge. Left out when there is nothing to fix first.
 3. **What gets built.** Phase by phase, each module with its tag and legend (✅ you asked · 💡 we propose · ⏸ later), then the Later modules, then what is not recommended and why.
 4. **Running costs.** The external costs, each with why that plan, and the alternative's price for comparison. Left out when the work has no running costs.
-5. **Investment and timeline.** A fixed price and an estimated delivery time per phase, the total, the payment terms, and the monthly retainer with what it covers. When `quote.md` has a break-even, the cumulative-cost comparison goes here.
+5. **Investment and timeline.** A fixed price and an estimated delivery time per phase, the total, the payment terms, and the monthly retainer with what it covers and when it starts. When `quote.md` has a break-even, the running-cost comparison goes here.
 6. **Assumptions and questions.** Every open question from `estimate.md`, each with the assumption this proposal makes until the client answers.
 7. **Sources.** Every external cost, exchange rate and fact about the alternative, with its link and consultation date.
 
@@ -26,7 +26,7 @@ The proposal carries each phase's **price** and **delivery time**, the payment t
 - **Prints to A4.** Use the stylesheet's classes; a section or diagram never splits across pages (`.keep`).
 - **Diagrams only where they help the client decide:**
   - a timeline of the phases, sized by delivery time, when there is more than one phase;
-  - cumulative spend against the alternative, month by month, with the break-even month marked, when `quote.md` has a break-even;
+  - the running cost a month once the work is delivered against the alternative's, as horizontal bars with each value beside its bar, when `quote.md` has a break-even; the break-even month goes in the caption, since a cumulative curve beside the timeline reads as a delivery date;
   - an architecture sketch, only when the client needs it to understand what they are buying.
 
 ## Checks

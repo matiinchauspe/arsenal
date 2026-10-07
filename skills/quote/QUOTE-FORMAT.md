@@ -41,11 +41,12 @@ Date: {YYYY-MM-DD}
 - Infrastructure: {item} {cost} ({source}, {YYYY-MM-DD}), …
 - Support: {hours} h a month
 - Beyond that: {rate} per hour
+- Starts: {when, from the policy}
 - **Monthly: {amount}**
 
 ## Break-even
 
-{Cumulative spend, month by month, of this work against the alternative, and the month this work becomes cheaper. State the assumption about the alternative's price over time.}
+{Cumulative spend, month by month, of this work against the alternative, and the month this work becomes cheaper. State the assumption about the alternative's price over time. Then the running cost a month once the work is delivered, beside the alternative's.}
 
 ## Lever
 
@@ -62,5 +63,6 @@ Date: {YYYY-MM-DD}
 - **Exceptions** reads "None" when the quote follows the policy throughout.
 - **Warranty** is left out when Phase 0 has no warranty items.
 - **Delivery** is the phase's high-end hours ÷ the capacity, rounded up to whole weeks. A delivery the user sets by hand at Checkpoint 2 is recorded as given, with no confirmation round, and goes in Exceptions with its reason; when it is shorter than the computed one, the reason also states the hours per week it implies.
+- **Break-even** models the build honestly: this work's side carries the alternative's cost until the phase that replaces it is delivered, since the client keeps paying for what it uses today while the work is built, and the retainer from the start the policy sets. One column per way the alternative is priced.
 - **The lever** follows the policy's Lever line; the cut it proposes is in scope, priced like any other phase.
 - **`quote.html`**, a rendering of this file with a break-even chart, is written only when the user asks for it, following the HTML rules in [PROPOSAL-FORMAT.md](./PROPOSAL-FORMAT.md).

@@ -86,7 +86,7 @@ Done when every module has a low–high hour range, every phase has a subtotal, 
 
 Read `POLICY.md` before pricing anything. When it is missing, read [POLICY-FORMAT.md](./POLICY-FORMAT.md), interview the user, and write it first. Then, before writing `quote.md`, read [QUOTE-FORMAT.md](./QUOTE-FORMAT.md). Price only with values from `POLICY.md`; a value that departs from it for this engagement is an **exception** and carries its reason. When `POLICY.md` lacks a value the quote needs, ask the user for it and offer to add it. `POLICY.md` changes only when the user asks for it, or to save a new identity at Checkpoint 2.
 
-Done when `quote.md` snapshots every policy value it used, every phase price traces to its hours through the policy's pricing rule, every phase has a delivery time, every exception carries a reason, the retainer is itemized (or the policy has none), and the break-even exists exactly when the alternative has a price.
+Done when `quote.md` snapshots every policy value it used, every phase price traces to its hours through the policy's pricing rule, every phase has a delivery time, every exception carries a reason, the retainer is itemized (or the policy has none), and the break-even exists exactly when the alternative has a price and carries the alternative's cost until the phase that replaces it is delivered.
 
 ### CHECKPOINT 2 · "Does it add up?"
 
@@ -112,7 +112,7 @@ A revision reruns the flow from Scope, with the client's answers turning assumpt
 - State `draft`: overwrite the draft in place; the version stays. Log the reason.
 - State `sent`: the frozen `proposal-vN.html` and `quote-vN.md` are the starting point and stay untouched. Set the state to `draft` and the version to `v{N+1}`, and log the reason.
 
-Price a revision with the values snapshotted in the `quote.md` of the version it revises; when that version never reached Price, price from `POLICY.md` as usual. When `POLICY.md` has changed since, show the difference at Checkpoint 2 and let the user pick. That version's exceptions are shown at Checkpoint 2 too, for the user to keep or drop.
+Price a revision with the values snapshotted in the `quote.md` of the version it revises; when that version never reached Price, price from `POLICY.md` as usual, and a value its snapshot lacks comes from `POLICY.md` the same way. When `POLICY.md` has changed since, show the difference at Checkpoint 2 and let the user pick. That version's exceptions are shown at Checkpoint 2 too, for the user to keep or drop.
 
 ## Language
 
