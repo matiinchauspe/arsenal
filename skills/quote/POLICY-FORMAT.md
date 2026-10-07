@@ -29,6 +29,7 @@ Updated: {YYYY-MM-DD}
 ## Retainer
 
 - {What the monthly retainer covers, and how hours beyond it are billed}
+- Starts: {when the retainer starts}
 
 ## Lever
 
@@ -57,7 +58,7 @@ Run it when `POLICY.md` is missing. Ask one section at a time, in template order
 | Pricing rule | Hours at the midpoint of the range, priced and rounded up to the next 50 in the quote currency |
 | Payment terms | 50% when each phase starts, 50% when it is delivered |
 | Warranty | Defects in work the user delivered earlier are fixed free |
-| Retainer | Infrastructure at cost plus 2 hours of support a month; hours beyond that at the hourly rate |
+| Retainer | Infrastructure at cost plus 2 hours of support a month; hours beyond that at the hourly rate. Starts at the first phase delivered, when the client starts using the work |
 | Lever | Cut scope, never the rate |
 | Capacity | No suggestion: ask |
 | Identities | Leave empty; the first one is added at Checkpoint 2 |

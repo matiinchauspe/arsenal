@@ -4,6 +4,19 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [Unreleased]
+
+### Fixed
+
+- **`quote`**: the break-even now counts what the client keeps paying for the alternative while
+  the work is built, until the phase that replaces it is delivered. Before, it dropped the
+  alternative in month 1, which put the first real quote's break-even 9 months too early.
+- **`quote`**: the policy now records when the retainer starts (suggested: at the first phase
+  delivered), and the quote and proposal state it.
+- **`quote`**: the proposal shows the monthly running cost against the alternative as bars, with
+  the break-even month in the caption. The cumulative curve beside the weeks-based timeline read as
+  a delivery date.
+
 ## [0.2.0] - 2026-10-06
 
 ### Added
