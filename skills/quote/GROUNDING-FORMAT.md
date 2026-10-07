@@ -23,6 +23,7 @@ Consulted: {YYYY-MM-DD}
 
 {What the client would do instead: a product, a vendor, a spreadsheet, doing nothing.}
 - Price: {amount and period, or "none"} ({source}, {YYYY-MM-DD})
+- Paid today: {yes | no; a trial or an evaluation is no} ({source}, {YYYY-MM-DD})
 - What it does that this work will not, and the reverse.
 
 ## External costs
