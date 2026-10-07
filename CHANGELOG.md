@@ -9,8 +9,9 @@ All notable changes to Arsenal are recorded here. The format follows
 ### Fixed
 
 - **`quote`**: the break-even now counts what the client keeps paying for the alternative while
-  the work is built, until the phase that replaces it is delivered. Before, it dropped the
-  alternative in month 1, which put the first real quote's break-even 9 months too early.
+  the work is built, until the phase that replaces it is delivered, when the client already pays
+  for it. The grounding records whether it does; a trial or an evaluation pays nothing, so the
+  build then carries none of it.
 - **`quote`**: the policy now records when the retainer starts (suggested: at the first phase
   delivered), and the quote and proposal state it.
 - **`quote`**: the proposal shows the monthly running cost against the alternative as bars, with

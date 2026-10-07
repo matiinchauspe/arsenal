@@ -86,7 +86,7 @@ Done when every module has a low–high hour range, every phase has a subtotal, 
 
 Read `POLICY.md` before pricing anything. When it is missing, read [POLICY-FORMAT.md](./POLICY-FORMAT.md), interview the user, and write it first. Then, before writing `quote.md`, read [QUOTE-FORMAT.md](./QUOTE-FORMAT.md). Price only with values from `POLICY.md`; a value that departs from it for this engagement is an **exception** and carries its reason. When `POLICY.md` lacks a value the quote needs, ask the user for it and offer to add it. `POLICY.md` changes only when the user asks for it, or to save a new identity at Checkpoint 2.
 
-Done when `quote.md` snapshots every policy value it used, every phase price traces to its hours through the policy's pricing rule, every phase has a delivery time, every exception carries a reason, the retainer is itemized (or the policy has none), and the break-even exists exactly when the alternative has a price and carries the alternative's cost until the phase that replaces it is delivered.
+Done when `quote.md` snapshots every policy value it used, every phase price traces to its hours through the policy's pricing rule, every phase has a delivery time, every exception carries a reason, the retainer is itemized (or the policy has none), and the break-even exists exactly when the alternative has a price and carries the alternative's cost through the build exactly when `grounding.md` records it as paid today.
 
 ### CHECKPOINT 2 · "Does it add up?"
 
