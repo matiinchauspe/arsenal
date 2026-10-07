@@ -1,0 +1,127 @@
+/*
+ * Base stylesheet for proposal.html. Brand-free: the signer's identity supplies
+ * --accent, the logo, the name and the contact. Inline it in a <style> element.
+ *
+ * Classes:
+ *   header.masthead  logo + title + client/date line
+ *   .lede            the summary paragraph
+ *   .keep            never split across printed pages (sections, tables, figures)
+ *   .tag             module tag chip (✅ 💡 ⏸)
+ *   .price           a price figure; .total for the total row
+ *   .note            an aside: an assumption, a caveat, a warranty remark
+ *   figure.chart     an inline SVG diagram with its <figcaption>
+ *   footer.signature the signer's identity block
+ */
+
+:root {
+  --accent: #2f5d8a;
+  --ink: #1d2126;
+  --muted: #5d6670;
+  --rule: #d9dde2;
+  --wash: #f4f6f8;
+  --paper: #ffffff;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--wash); }
+
+body {
+  margin: 0 auto;
+  max-width: 820px;
+  padding: 48px 56px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.6 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+header.masthead {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+  border-bottom: 3px solid var(--accent);
+}
+header.masthead img { max-height: 56px; max-width: 160px; }
+header.masthead h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+header.masthead p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+
+h2 {
+  margin: 40px 0 12px;
+  font-size: 19px;
+  color: var(--accent);
+}
+h3 { margin: 24px 0 8px; font-size: 16px; }
+
+p, ul, ol { margin: 0 0 12px; }
+li { margin-bottom: 4px; }
+a { color: var(--accent); }
+code { font: 13px var(--mono); background: var(--wash); padding: 1px 4px; border-radius: 3px; }
+
+.lede { font-size: 17px; }
+
+table {
+  width: 100%;
+  margin: 12px 0 20px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
+}
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.total td { font-weight: 700; border-top: 2px solid var(--ink); border-bottom: none; }
+
+.tag {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: var(--wash);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.price { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.note {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--wash);
+  font-size: 14px;
+}
+
+figure.chart { margin: 20px 0; }
+figure.chart svg { display: block; width: 100%; height: auto; }
+figure.chart figcaption { margin-top: 6px; color: var(--muted); font-size: 13px; }
+
+footer.signature {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+}
+footer.signature img { max-height: 40px; max-width: 120px; }
+footer.signature strong { display: block; color: var(--accent); }
+
+@page { size: A4; margin: 16mm 14mm; }
+
+@media print {
+  html, body { background: var(--paper); }
+  body { max-width: none; padding: 0; font-size: 11pt; }
+  a { color: var(--ink); text-decoration: none; }
+  h2 { break-after: avoid; }
+  .keep, table, figure, tr { break-inside: avoid; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
