@@ -4,6 +4,22 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.3.0] - 2026-10-07
+
+### Added
+
+- **`research`** (`/arsenal:research <topic>: <question>`): researches a topic into one living
+  document that outlives any project, so what you learned for one client serves the next one in
+  the same industry.
+  - Topics live at `$ARSENAL_RESEARCH_HOME`, default `~/research/`, one folder per topic with one
+    `TOPIC.md`. A topic is an industry or a cross-cutting subject; an industry links a cross-cutting
+    topic instead of copying it, so every fact lives in one place.
+  - Every fact is labeled `[fact]`, `[secondary]`, `[inference]` or `[unverified]`, with its source
+    and read date. Each question is `legal-fiscal` (only primary sources back the answer, expires
+    after 6 months) or `practice` (labeled secondary sources allowed, expires after 24 months).
+  - Asking again answers from the document, re-verifying only expired facts. The reading runs in a
+    background agent when the host can start one. It never writes to the project's repo.
+
 ## [0.2.1] - 2026-10-07
 
 ### Fixed

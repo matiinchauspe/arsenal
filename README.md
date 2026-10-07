@@ -38,6 +38,7 @@ into the agent's skills directory.
 | ------- | ------------ | ---------- |
 | `teach` | Teaches you a topic over several sessions: a mission, short interactive HTML lessons, reference sheets, a glossary and learning records | user (`/arsenal:teach <topic>`) |
 | `quote` | Quotes a piece of work for a client: grounds it in what exists today, scopes and estimates it, prices it with your policy, and writes a client proposal (HTML) plus an internal quote, tracked from draft to sent to outcome | user (`/arsenal:quote <client>: <ask>`) |
+| `research` | Researches a topic, an industry or something many industries share, into a living document of labeled, sourced and dated facts that outlives any project, re-verifying what has expired | user (`/arsenal:research <topic>: <question>`) |
 
 ### `teach`: where your learning lives
 
@@ -57,6 +58,15 @@ Quotes live in `$ARSENAL_QUOTES_HOME` when the variable is set, else `~/quotes/`
 
 Tell it what happened as it happens: `/arsenal:quote acme: sent it` freezes the version the client saw,
 `acme: accepted Phase 2 only` records the outcome, and `acme: Phase 2 took 50 h` records actual hours.
+
+### `research`: where your research lives
+
+Research lives in `$ARSENAL_RESEARCH_HOME` when the variable is set, else `~/research/`, never in a client's repo:
+
+- One folder per topic, holding one living `TOPIC.md`. A topic is an industry (`inmobiliarias`) or something many industries share (`facturacion-arca`); an industry links a shared topic instead of copying it.
+- Every fact carries a label (`[fact]`, `[secondary]`, `[inference]`, `[unverified]`), its source and the date it was read. A legal or fiscal answer rests only on primary sources and expires after 6 months; an industry practice expires after 24.
+
+Ask again and it answers from what it already knows, re-verifying only what has expired. `/arsenal:research` with no argument lists your topics and flags the expired ones.
 
 ## Layout
 
