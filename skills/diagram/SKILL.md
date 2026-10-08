@@ -56,7 +56,9 @@ Done when the kind follows from the question by this table, or the type made for
 
 Past roughly 12 to 15 nodes, split instead of crowding: one **overview**, plus a **zoom** for each part that needs detail, each with its own question. A zoom links back to the overview, and the overview names its zooms.
 
-Done when every diagram is within the limit and has its own question.
+A diagram bound for a printed document (a `quote` proposal, a `teach` reference) also fits in **half a printed page**: a figure taller than the page prints blank or cut, and one that only just fits strands the half page before it. It must also stay **legible**: printed at the page width, a diagram wider than about 1000px (its SVG `viewBox`) shrinks its text below a readable size. Stretched to the page width, as in a proposal, both mean a width of at most about 1000px and a height of at most about 0.7 times the width. A tall `TD` flow goes `LR` and a long `LR` row goes `TD`, as long as that keeps it inside both; one that fits neither way splits.
+
+Done when every diagram is within the limit, fits half a page legibly when it will be printed, and has its own question.
 
 ### 4. Draw
 
@@ -81,11 +83,19 @@ The first run downloads a headless browser and can take minutes; later runs are 
 - **It renders:** read the PNG. Crossing edges, overlapping labels or a cramped side mean a change: flip the direction (`LR` ↔ `TD`), shorten labels, or split (step 3). Render again after each change.
 - **There is no Node:** hand it over marked **unverified**.
 
-Done when the last render is clean to read, the diagram is marked unverified, or the user has the error.
+A diagram bound for a printed document is checked where it lands, not only alone: the PNG cannot show how it breaks across pages, and mermaid-cli shrinks it to fit 800px, so its size is read from the SVG `viewBox`, never from the PNG. Render the SVG and inline it as step 6 does, into a copy of the document in the temp directory, never the document itself, print the copy to PDF with a headless Chrome or Chromium (the one mermaid-cli downloaded will do):
+
+```
+<chrome> --headless --no-pdf-header-footer --print-to-pdf=<tmp>/<slug>.pdf <tmp>/<copy>.html
+```
+
+and look at every page the diagram touches. A blank or cut figure, text too small to read, or a page left half empty before it, sends it back to step 3; print again after each change.
+
+Done when the last render is clean to read and, for a printed document, its pages print it whole and legible; or the diagram is marked unverified, or the user has the error.
 
 ### 6. Hand over
 
-Write it where it lands, with the question above it and the source list below. For an SVG, render the same file with `-o <tmp>/<slug>.svg`. Give the user (or the skill that asked) where it is (a path, a link, or, when it lands nowhere, the diagram itself with its source list), the question it answers, and every assumption on it.
+Write it where it lands, with the question above it and the source list below. For an SVG, render the same file with `-o <tmp>/<slug>.svg` and inline it **as rendered**: never trimmed or edited by hand, since the `.mmd` beside it must still produce what the reader sees. A change goes into the `.mmd` and renders again. Give the user (or the skill that asked) where it is (a path, a link, or, when it lands nowhere, the diagram itself with its source list), the question it answers, and every assumption on it.
 
 Done when they have all three, and the diagram sits only where the table above puts it.
 

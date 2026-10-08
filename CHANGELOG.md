@@ -4,7 +4,7 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
-## [0.4.0] - 2026-10-07
+## [0.4.0] - 2026-10-08
 
 ### Added
 
@@ -18,7 +18,8 @@ All notable changes to Arsenal are recorded here. The format follows
   - Every element is traced to its source; what the source does not show is drawn as an assumption,
     and a future project is stamped Proposed. A diagram drawn from code carries its commit.
   - Every diagram is rendered and looked at before it is handed over; with no Node it is marked
-    unverified.
+    unverified. One bound for a printed document fits half a page legibly, and is checked by
+    printing a copy of that document to PDF and looking at its pages.
 
 ### Changed
 
