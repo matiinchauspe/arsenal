@@ -39,6 +39,7 @@ into the agent's skills directory.
 | `teach` | Teaches you a topic over several sessions: a mission, short interactive HTML lessons, reference sheets, a glossary and learning records | user (`/arsenal:teach <topic>`) |
 | `quote` | Quotes a piece of work for a client: grounds it in what exists today, scopes and estimates it, prices it with your policy, and writes a client proposal (HTML) plus an internal quote, tracked from draft to sent to outcome | user (`/arsenal:quote <client>: <ask>`) |
 | `research` | Researches a topic, an industry or something many industries share, into a living document of labeled, sourced and dated facts that outlives any project, re-verifying what has expired | user (`/arsenal:research <topic>: <question>`) |
+| `diagram` | Draws the diagram a question calls for (flow, sequence, states, use cases, journey, ER) from code, a client's ask or a research topic, as Mermaid it renders and checks before handing over, with every element traced to its source | model and user (`/arsenal:diagram <what>, from <source>`) |
 
 ### `teach`: where your learning lives
 
@@ -67,6 +68,20 @@ Research lives in `$ARSENAL_RESEARCH_HOME` when the variable is set, else `~/res
 - Every fact carries a label (`[fact]`, `[secondary]`, `[inference]`, `[unverified]`), its source and the date it was read. A legal or fiscal answer rests only on primary sources and expires after 6 months; an industry practice expires after 24.
 
 Ask again and it answers from what it already knows, re-verifying only what has expired. `/arsenal:research` with no argument lists your topics and flags the expired ones.
+
+### `diagram`: where your diagrams live
+
+Nowhere of their own: a diagram lives beside what it explains. A flow of a project goes into that repo's
+docs as a `mermaid` block; a flow in a proposal goes into `proposal.html` as SVG, with its source in the
+engagement folder; a research process goes into the topic's section. It is the one Arsenal skill the
+agent and the other skills reach on their own: `quote`, `research` and `teach` draw through it.
+
+- Every diagram answers one question, written above it, and the question picks the kind. Past about 15
+  nodes it splits into an overview and zooms.
+- Every element is traced to its source (`file:line`, the client's sentence). What the source does not
+  show is drawn dashed or labeled `assumed:`.
+- It renders each diagram with `npx @mermaid-js/mermaid-cli` and looks at it before handing it over, so
+  it needs Node. The first render downloads a headless browser.
 
 ## Layout
 
