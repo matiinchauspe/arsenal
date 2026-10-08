@@ -147,6 +147,8 @@ Some learning topics lend themselves to reference:
 - Yoga poses and sequences for yoga
 - Exercises and routines for fitness
 
+A process, a sequence or a relation, in a lesson or a reference document, is drawn with the `diagram` skill and embedded as the SVG it renders.
+
 The glossary is the essential reference for any topic with its own nomenclature. Once `GLOSSARY.md` exists, every lesson adheres to it.
 
 ## `NOTES.md`

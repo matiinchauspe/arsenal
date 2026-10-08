@@ -27,7 +27,7 @@ The proposal carries each phase's **price** and **delivery time**, the payment t
 - **Diagrams only where they help the client decide:**
   - a timeline of the phases, sized by delivery time, when there is more than one phase;
   - the running cost a month once the work is delivered against the alternative's, as horizontal bars with each value beside its bar, when `quote.md` has a break-even; the break-even month goes in the caption, since a cumulative curve beside the timeline reads as a delivery date;
-  - an architecture sketch, only when the client needs it to understand what they are buying.
+  - how the delivered work will run (a flow, its states, who does what), only when the client needs it to understand what they are buying. Draw it with the `diagram` skill, stamped Proposed, and inline the SVG it renders.
 
 ## Checks
 

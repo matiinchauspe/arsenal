@@ -52,9 +52,9 @@ Done when the reading is finished (the agent has returned, or you did it yoursel
 
 ### 4. Hand back
 
-Give the user the answer in a few lines, the facts it rests on, what stays pending and why, and the path to the section.
+Give the user the answer in a few lines, the facts it rests on, what stays pending and why, and the path to the section. When the answer describes a process (the steps of a transfer, the life of a claim), offer to draw it with the `diagram` skill; on a yes, write the diagram it hands back (its question, the Mermaid and its source list) into the section's Answer.
 
-Done when the user has all four.
+Done when the user has all four, and a process answer has had its diagram offered.
 
 ## Language
 

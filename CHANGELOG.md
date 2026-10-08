@@ -4,6 +4,29 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.4.0] - 2026-10-08
+
+### Added
+
+- **`diagram`** (`/arsenal:diagram <what>, from <source>`, also reached by the agent and by other
+  skills): draws the diagram a question calls for, from code, a client's ask or a research topic.
+  - One diagram answers one question, written above it; the question picks the kind (sequence,
+    state, flow, use case, journey, ER), and past about 15 nodes it splits into an overview and zooms.
+  - Mermaid is always the source. It lands beside what it explains: a `mermaid` block in a repo's
+    docs, inline SVG in a proposal, a section of a research topic. A diagram for the same question
+    is replaced in place, never duplicated.
+  - Every element is traced to its source; what the source does not show is drawn as an assumption,
+    and a future project is stamped Proposed. A diagram drawn from code carries its commit.
+  - Every diagram is rendered and looked at before it is handed over; with no Node it is marked
+    unverified. One bound for a printed document fits half a page legibly, and is checked by
+    printing a copy of that document to PDF and looking at its pages.
+
+### Changed
+
+- **`quote`**: a proposal draws how the delivered work will run with `diagram`, inlined as SVG.
+- **`research`**: an answer that describes a process offers a diagram, written into its section.
+- **`teach`**: lessons and reference documents draw processes and relations with `diagram`.
+
 ## [0.3.0] - 2026-10-07
 
 ### Added
