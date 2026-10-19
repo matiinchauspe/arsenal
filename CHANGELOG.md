@@ -4,6 +4,31 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.5.0] - 2026-10-19
+
+### Added
+
+- **`interview`** (`/arsenal:interview <company>: <what's coming or what happened>`): prepares you
+  for software engineering interviews, from the first application to the offer.
+  - Lives at `$ARSENAL_INTERVIEWS_HOME`, default `~/interviews/`. The root holds what every process
+    shares: `PROFILE.md`, a STAR story bank in `STORIES.md`, and `QUESTIONS.md`, which logs every
+    question faced and measures the weak spots. Each process gets its own folder with `STATUS.md`.
+  - A new process matches the JD against the profile and writes a plan counted back from the next
+    stage's date: weeks out it studies gaps (or hands them to `teach`), days out it only simulates.
+    The company's process and the market range come from `research`.
+  - Mocks for recruiter, behavioral, live-coding, system-design, frontend, client-case and
+    negotiation stages, as drills or simulations, replicating a stage's known format (an async
+    video in one take). Every criterion is scored on a quote from the user's answer, ties score
+    low, a criterion that does not fit the stage is `n/a`, and an answer given after coaching is
+    recorded as prepared and never counts toward a weak spot. Live coding runs hidden tests, fixed
+    before any code exists, against a real file.
+  - Spoken answers are timed with whatever the user already records or dictates with, found and
+    confirmed on the first spoken mock and kept in the profile with their measured pace; with no
+    tool, the system's own recorder, a stopwatch, or an estimate marked as such. A hard time limit
+    is a format, not a criterion: what is said past it is not scored.
+  - Debriefs feed real questions back into the root; an offer is compared against the profile's
+    floor and target and gets a counter; a rejection ends in a retro that feeds the weak spots.
+
 ## [0.4.0] - 2026-10-08
 
 ### Added
