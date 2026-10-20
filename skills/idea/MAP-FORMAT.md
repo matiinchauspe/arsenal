@@ -87,7 +87,7 @@ Every idea starts with these, which New fills in from the pitch:
 - `high`: if it is false, the idea has to pivot (another segment, another price, another channel).
 - `low`: if it is false, it is adjusted on the way.
 
-Impact is set at New's checkpoint. Lowering it after the assumption was researched is logged with the reason, and the next verdict names it under Best reason not to do it.
+Impact is set at New's checkpoint. Lowering it after the assumption was researched is logged with the reason, and the next verdict names it under Best reason not to do it. Removing an assumption after it was researched counts as lowering its impact.
 
 ### States
 
@@ -111,7 +111,7 @@ unknown ──► researched (for | against | mixed) ──► in-test ──►
 
 - **Desk research never validates.** It reaches `researched (for)` at most.
 - **`[secondary]` and `[inference]` never kill.** Alone they leave an assumption `researched (against)`.
-- **Nothing found is not evidence.** A search that finds nothing bearing on an assumption leaves it `unknown`, writes `searched {YYYY-MM-DD}: nothing found` as its Evidence, and Continue skips it until the user brings a lead or a related fact expires.
+- **Nothing found is not evidence.** A search that finds nothing bearing on an assumption leaves it `unknown`, writes `searched {YYYY-MM-DD}: nothing found ([{topic} § {question}]({research home}/{topic}/TOPIC.md#{anchor}))` as its Evidence, and Continue skips it until the user brings a lead or a related fact expires.
 - An assumption already researched is researched again when a fact it rests on expires, or when the user brings new evidence; its state moves between the researched states. What the user brings is a lead handed to `research` as its starting point, never a source; a test Result is the exception (TEST-FORMAT.md).
 - A `dead` or `validated` assumption only changes when the user explicitly reopens it; the Log says why.
 
@@ -121,7 +121,7 @@ Evidence is a link, never a copied fact:
 
 - A `research` section: `[{topic} § {question}]({research home}/{topic}/TOPIC.md#{anchor})`.
 - A test in this map: `[T{n}](#tests)`.
-- An economics run: `[run {YYYY-MM-DD}](#economics)`.
+- An economics run: `[run {n}](#economics)`.
 
 ## Competition
 

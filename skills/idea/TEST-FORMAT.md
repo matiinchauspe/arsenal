@@ -11,6 +11,9 @@ Pick the cheapest kind that can settle the assumption:
 | `interviews` | whether the problem exists and hurts (Problem, Customer) | "at least 4 of 6 lost a booking to a no-show in the last month" |
 | `smoke-test` | whether people want the solution enough to act (Solution, Value added, Channel) | "at least 5% of 200 visits leave their email" |
 | `pre-sale` | whether they pay (Economics, Value added) | "at least 3 of 20 asked pay the deposit" |
+| `count` | how many customers there are (Market, Customer) | "at least 3,000 salons listed in {directory} for {region}" |
+
+A count is done from a primary listing the user or `research` can read, and its source is linked.
 
 A pre-sale is the strongest signal there is, because it is real money; prefer it whenever the user can sell before building.
 
@@ -59,7 +62,7 @@ Done when the block is written with a threshold, and the assumption is `in-test`
 
 The user ran a test and tells what happened.
 
-1. Write the raw numbers the user gives under the block's Result, with the date: "6 interviewed, 4 lost a booking last month". Quotes from interviews go in as said.
+1. Write the raw numbers the user gives under the block's Result, with the date: "6 interviewed, 4 lost a booking last month". Quotes from interviews go in as said. Only what happened after the block's Written date counts; numbers gathered before it are a lead.
 2. Compare against **Passes when**, and nothing else:
    - Meets **Passes when** → `validated`.
    - Misses it → `dead`.

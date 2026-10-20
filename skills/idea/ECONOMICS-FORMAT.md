@@ -27,7 +27,7 @@ Every model also takes:
 | `fixed_costs` | the minimum a month to operate | the providers' prices plus what the user says they would spend |
 | `reachable_market` | how many customers the idea can reach | the Market zone |
 
-`price` comes from the competitor table (MAP-FORMAT.md, Competition). When nobody charges for anything similar, say so: that is information, and the price is then an `[inference]` named as such.
+`price` comes from the competitor table (MAP-FORMAT.md, Competition). When nobody charges for anything similar, say so: that is information. The price is then an `[inference]` from linked facts it names (what the pain costs the customer, what adjacent tools charge), or the user's estimate, `[unverified]`.
 
 Every input has three values: **pessimistic** (bad for the business: low price, high CAC, high churn), **base** and **optimistic**. Each value is labeled as TOPIC-FORMAT.md in `research` defines and links the fact it comes from. A value with no linked fact can only be the user's own estimate (Running, step 1), labeled `[unverified]`. No value, and no target, may be above 1e12: `economics.py` rejects it.
 
@@ -81,10 +81,10 @@ A scenario **closes** when its net contribution is positive and its market share
 
 ## Writing a run
 
-Under the Economics zone's table in `MAP.md`, on top of the previous runs, which are kept below it so a verdict's `run {date}` link still resolves:
+Under the Economics zone's table in `MAP.md`, on top of the previous runs, which are kept below it so a verdict's `run {n}` link still resolves. Runs are numbered from 1 and never reused:
 
 ```md
-### Run {YYYY-MM-DD}
+### Run {n} · {YYYY-MM-DD}
 
 | Input | Pessimistic | Base | Optimistic | Source |
 | --- | --- | --- | --- | --- |
