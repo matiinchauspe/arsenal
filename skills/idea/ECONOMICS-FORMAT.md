@@ -58,7 +58,7 @@ Every input has three values: **pessimistic** (bad for the business: low price, 
 ```
 
 3. Run `python3 <this skill's folder>/economics.py <idea>/economics.json`. It exits 2 with the reason on a wrong input: fix the JSON and run it again.
-4. Without `python3`, tell the user, and stop the economics: `E1` stays where it is, and the verdict cannot be "worth testing" until a run exists.
+4. Without `python3`, tell the user, and stop the economics: `E1` stays where it is, Continue does not pick `E1` again until the user says `python3` is available, and the verdict cannot be "worth testing" until a run exists.
 
 ## Formulas
 
@@ -97,8 +97,10 @@ Under the Economics zone's table in `MAP.md`, on top of the previous runs, which
 
 Then:
 
-1. Set `E1` from the result: **closes comfortably** or **closes, but hinges** → `researched (for)`; **doesn't close** → `researched (against)`. When the deciding variable's base value is `[unverified]`, E1 goes to `researched (mixed)` at most. Link the run.
+1. Set `E1` from the result: **closes comfortably** or **closes, but hinges** → `researched (for)`; **doesn't close** → `researched (against)`. When the deciding variable's base value, or `reachable_market`'s, is `[unverified]`, E1 goes to `researched (mixed)` at most. Link the run.
 2. When the deciding variable is not already a `critical` Economics assumption, add one, `critical`, and say so: "{input} is no worse than {its base value}", that is at most it for `cac`, `monthly_churn`, `fixed_costs` and `months_between_purchases`, and at least it for the rest.
 3. Log the run with its result.
+4. `E1` is open again when research on any assumption an input comes from (an Economics assumption, or the Competition, Channel or Market one behind price, CAC or reachable market) links a new fact for that input: update the input's values from the fact and run again. A price, take rate or fixed cost the user decides to change is a new input, labeled as the user's choice, and `E1` is open again.
+5. `E1` is never offered a test: it is settled by runs. Offer the test for its deciding-variable assumption instead, or for the Market one behind `reachable_market` when that is what held it at `researched (mixed)`.
 
 `E1` waits until at least one Competition and value added assumption (for the price), one Channel assumption (for CAC) and one Market assumption (for the reachable market) is in any state but `unknown`, whatever its impact; one left `unknown` with `nothing found` also counts, and its input is then the user's estimate (Running, step 1). Continue picks those ahead of `E1`, even when they are `low`; a zone with none gets one added, impact `high`, and the user is told. A run is **stale** when a fact one of its inputs links has expired; Continue runs it again after `research` re-verifies that fact.

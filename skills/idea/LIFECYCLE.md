@@ -25,7 +25,7 @@ The user asks for the verdict. It can be asked at any time; the rules say what i
 | **Not enough information** | A `critical` assumption is still `unknown`: Continue has not reached it, or research found nothing either way |
 | **Worth testing** | None of the above: no critical dead, none unknown, the economics close on base, and every critical left `researched (mixed)` or `researched (against)` is in To test next |
 
-A critical `researched (against)` counts as `researched (mixed)` in these rules, and is named first among the assumptions to test and as the best reason not to do it. A critical `in-test` counts as the state it had before the test (its block's Before), and is listed under To test next as already running.
+A critical `researched (against)` counts as `researched (mixed)` in these rules, and is named first among the assumptions to test and as the best reason not to do it. A critical `in-test` counts as the state it had before the test (its block's Before), and is listed under To test next as already running. `E1` is never tested itself: To test next lists in its place the test ECONOMICS-FORMAT.md, Writing a run, step 5, offers for it.
 
 3. Write the verdict at the top of `## Verdict`, keeping the previous ones below it, and copy its name and date into `STATUS.md`:
 
