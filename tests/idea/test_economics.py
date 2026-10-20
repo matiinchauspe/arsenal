@@ -108,6 +108,55 @@ class Validation(unittest.TestCase):
     def test_valid_spec_passes(self):
         economics.validate(copy.deepcopy(SUBSCRIPTION))
 
+    def test_top_level_must_be_an_object(self):
+        with self.assertRaisesRegex(economics.InputError, "the input must be a JSON object"):
+            economics.validate([SUBSCRIPTION])
+
+    def test_inputs_must_be_an_object(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["inputs"] = 5
+        with self.assertRaisesRegex(economics.InputError, "inputs must be an object"):
+            economics.validate(s)
+
+    def test_a_range_must_be_an_object(self):
+        s = spec(price=20)
+        with self.assertRaisesRegex(economics.InputError, "'price' must be an object with pessimistic, base and optimistic values"):
+            economics.validate(s)
+
+    def test_model_must_be_a_string(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["model"] = ["a"]
+        with self.assertRaisesRegex(economics.InputError, "model must be a string"):
+            economics.validate(s)
+
+    def test_nan_value(self):
+        s = spec(price=rng(15, float("nan"), 25))
+        with self.assertRaisesRegex(economics.InputError, "'price' base must be a finite number"):
+            economics.validate(s)
+
+    def test_infinite_value(self):
+        s = spec(cac=rng(float("inf"), 40, 30))
+        with self.assertRaisesRegex(economics.InputError, "'cac' pessimistic must be a finite number"):
+            economics.validate(s)
+
+    def test_nan_target(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["target"] = float("nan")
+        with self.assertRaisesRegex(economics.InputError, "target must be a finite number, 0 or more"):
+            economics.validate(s)
+
+    def test_boolean_target(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["target"] = True
+        with self.assertRaisesRegex(economics.InputError, "target must be a finite number, 0 or more"):
+            economics.validate(s)
+
+    def test_boolean_max_share(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["max_share"] = True
+        with self.assertRaisesRegex(economics.InputError, "max_share must be a finite number above 0 and at most 1"):
+            economics.validate(s)
+
 
 def values(s, scenario):
     return {name: r[scenario] for name, r in s["inputs"].items()}
@@ -228,6 +277,16 @@ def run_cli(payload):
         os.unlink(path)
 
 
+def run_cli_raw(data):
+    with tempfile.NamedTemporaryFile("wb", suffix=".json", delete=False) as f:
+        f.write(data)
+        path = f.name
+    try:
+        return subprocess.run([sys.executable, SCRIPT, path], capture_output=True, text=True)
+    finally:
+        os.unlink(path)
+
+
 class Render(unittest.TestCase):
     def test_render_shows_every_output_row(self):
         out = economics.render(economics.compute(copy.deepcopy(SUBSCRIPTION)))
@@ -260,6 +319,57 @@ class Cli(unittest.TestCase):
         p = run_cli(bad)
         self.assertEqual(p.returncode, 2)
         self.assertIn("missing input 'cac'", p.stderr)
+
+    def test_top_level_array_exits_2(self):
+        self.assert_rejected(run_cli([SUBSCRIPTION]), "the input must be a JSON object")
+
+    def test_inputs_not_an_object_exits_2(self):
+        bad = copy.deepcopy(SUBSCRIPTION)
+        bad["inputs"] = 5
+        self.assert_rejected(run_cli(bad), "inputs must be an object")
+
+    def test_scalar_range_exits_2(self):
+        self.assert_rejected(run_cli(spec(price=20)), "'price' must be an object")
+
+    def test_model_not_a_string_exits_2(self):
+        bad = copy.deepcopy(SUBSCRIPTION)
+        bad["model"] = ["a"]
+        self.assert_rejected(run_cli(bad), "model must be a string")
+
+    def test_nan_value_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"base": 20,', '"base": NaN,')
+        self.assert_rejected(run_cli_raw(raw.encode()), "'price' base must be a finite number")
+
+    def test_nan_target_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"target": 1000', '"target": NaN')
+        self.assert_rejected(run_cli_raw(raw.encode()), "target must be a finite number")
+
+    def test_infinity_value_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"base": 40,', '"base": Infinity,')
+        self.assert_rejected(run_cli_raw(raw.encode()), "'cac' base must be a finite number")
+
+    def test_overflowing_value_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"base": 500,', '"base": 1e400,')
+        self.assert_rejected(run_cli_raw(raw.encode()), "'fixed_costs' base must be a finite number")
+
+    def test_boolean_target_exits_2(self):
+        bad = copy.deepcopy(SUBSCRIPTION)
+        bad["target"] = True
+        self.assert_rejected(run_cli(bad), "target must be a finite number")
+
+    def test_boolean_max_share_exits_2(self):
+        bad = copy.deepcopy(SUBSCRIPTION)
+        bad["max_share"] = True
+        self.assert_rejected(run_cli(bad), "max_share must be a finite number")
+
+    def test_non_utf8_file_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"USD"', '"US\\u00e9"').encode().replace(b"\\u00e9", b"\xe9")
+        self.assert_rejected(run_cli_raw(raw), "is not UTF-8 text")
+
+    def assert_rejected(self, p, message):
+        self.assertEqual(p.returncode, 2, p.stderr)
+        self.assertIn(message, p.stderr)
+        self.assertNotIn("Traceback", p.stderr)
 
     def test_no_argument_prints_usage(self):
         p = subprocess.run([sys.executable, SCRIPT], capture_output=True, text=True)

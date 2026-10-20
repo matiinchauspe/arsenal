@@ -26,26 +26,38 @@ class InputError(ValueError):
 
 
 def required_inputs(model):
+    if not isinstance(model, str):
+        raise InputError(f"model must be a string; expected one of: {', '.join(MODELS)}")
     if model not in MODELS:
         raise InputError(f"unknown model {model!r}; expected one of: {', '.join(MODELS)}")
     return MODELS[model] + COMMON
 
 
+def is_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
 def validate(spec):
+    if not isinstance(spec, dict):
+        raise InputError("the input must be a JSON object")
     names = required_inputs(spec.get("model"))
     inputs = spec.get("inputs", {})
+    if not isinstance(inputs, dict):
+        raise InputError("inputs must be an object")
     for name in inputs:
         if name not in names:
             raise InputError(f"unexpected input {name!r} for model {spec['model']!r}")
     for name in names:
         if name not in inputs:
             raise InputError(f"missing input {name!r}")
+        if not isinstance(inputs[name], dict):
+            raise InputError(f"{name!r} must be an object with pessimistic, base and optimistic values")
         for scenario in SCENARIOS:
             if scenario not in inputs[name]:
                 raise InputError(f"{name!r} has no {scenario!r} value")
             value = inputs[name][scenario]
-            if not isinstance(value, (int, float)) or isinstance(value, bool):
-                raise InputError(f"{name!r} {scenario} must be a number")
+            if not is_number(value):
+                raise InputError(f"{name!r} {scenario} must be a finite number")
             if value < 0:
                 raise InputError(f"{name!r} {scenario} must not be negative")
             if name in FRACTIONS and value > 1:
@@ -53,11 +65,11 @@ def validate(spec):
             if name in POSITIVE and value == 0:
                 raise InputError(f"{name!r} {scenario} must be above 0")
     target = spec.get("target", 0)
-    if not isinstance(target, (int, float)) or target < 0:
-        raise InputError("target must be a number, 0 or more")
+    if not is_number(target) or target < 0:
+        raise InputError("target must be a finite number, 0 or more")
     max_share = spec.get("max_share", DEFAULT_MAX_SHARE)
-    if not isinstance(max_share, (int, float)) or not 0 < max_share <= 1:
-        raise InputError("max_share must be above 0 and at most 1")
+    if not is_number(max_share) or not 0 < max_share <= 1:
+        raise InputError("max_share must be a finite number above 0 and at most 1")
 
 
 def revenue_per_customer(model, v):
@@ -219,9 +231,12 @@ def main(argv):
         print("usage: economics.py <inputs.json>", file=sys.stderr)
         return 2
     try:
-        with open(argv[1]) as f:
+        with open(argv[1], encoding="utf-8") as f:
             spec = json.load(f)
         print(render(compute(spec)))
+    except UnicodeDecodeError:
+        print(f"economics.py: {argv[1]} is not UTF-8 text", file=sys.stderr)
+        return 2
     except (OSError, json.JSONDecodeError, InputError) as e:
         print(f"economics.py: {e}", file=sys.stderr)
         return 2
