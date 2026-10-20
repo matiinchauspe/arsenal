@@ -4,6 +4,28 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.6.0] - 2026-10-20
+
+### Added
+
+- **`idea`** (`/arsenal:idea <idea>: <what to do>`): clarifies a product, startup or digital-business
+  idea into an explicit decision.
+  - Lives at `$ARSENAL_IDEAS_HOME`, default `~/ideas/`: one folder per idea with `MAP.md` and
+    `STATUS.md`, and `IDEAS.md` for generated ideas not picked.
+  - An idea is a map of falsifiable assumptions in seven fixed zones (problem, customer, solution,
+    competition and value added, market, economics, channel), each with an impact and a state, drawn
+    as an overview with `diagram`.
+  - Continue picks the critical assumption with the least evidence and hands `research` a question
+    phrased to refute it. Desk research reaches `researched` at most and can kill on a primary
+    `[fact]`; `validated` takes a real-world test (interviews, smoke test, pre-sale), always optional,
+    with its threshold written before it runs and never moved.
+  - Unit economics in three scenarios computed by `economics.py`: net contribution after replacing
+    churn, LTV, LTV/CAC, payback, customers and market share needed for the user's target, and a
+    sensitivity pass whose deciding variable becomes a critical assumption.
+  - The verdict (discard, not enough information, worth testing) always carries the best reason not to
+    do it and what the idea demands (capital, skills, hours, access, time to revenue), never a
+    judgment of the user, and goes stale when the facts it rests on expire.
+
 ## [0.5.0] - 2026-10-19
 
 ### Added
