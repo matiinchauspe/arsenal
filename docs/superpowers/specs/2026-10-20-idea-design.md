@@ -92,6 +92,8 @@ bookings a week to no-shows"). Each one has:
 - **State**, with these transitions only:
 
 ```
+  ┌────────────────────────────────────────────────────┐   (a test before any research)
+  │                                                    ▼
 unknown ──► researched (for | against | mixed) ──► in-test ──► validated
                │                                           └──► dead
                └──► dead   (only on a primary-source [fact] against it)
@@ -103,21 +105,29 @@ Two rules:
 - **`validated` is reached only through a real-world test.** Desk research stops at "researched (for)".
 - **Desk research can kill.** A law that forbids it, or four competitors giving it away free, is a
   `[fact]` against it.
+- **Nothing found is not evidence.** A search that finds nothing leaves the assumption `unknown`
+  with a dated "nothing found", until the user brings a lead or a related fact expires.
+- An inconclusive test returns the assumption to the state it had before the test.
 
 New proposes 2-4 assumptions per zone from the pitch; the user corrects, removes or adds.
 
 ### Continue: what gets researched
 
-1. Pick the `critical` assumption with the least evidence (`unknown` before `researched (mixed)`);
-   on a tie, the cheapest to research. With no critical left open, the same over `high`.
+1. Pick the open `critical` assumption with the least evidence (`unknown` before `researched (mixed)`);
+   on a tie, the cheapest to research. With no critical left open, the same over `high`. Open means
+   `unknown` (not marked nothing found), or researched with an expired fact or a new lead from the
+   user; a critical left `mixed` or `against` is not re-picked but offered a test. With nothing
+   open, the map is ready for a verdict.
 2. Run the `research` flow on the industry topic (e.g. `salons-ar`) or a cross-cutting one (e.g.
    `online-payments-ar`), with the question **phrased to refute the assumption**: research looks for
    evidence against it, never for confirmation. What survives an attempt to break it is worth
    something.
 3. Set the assumption's state from the facts, link them, redraw the view, log it.
 
-An Economics assumption waits until the assumptions its inputs come from (price from Competition,
-CAC from Channel, reachable market from Market) are researched.
+`E1` (the economics run) waits until at least one Competition, one Channel and one Market assumption
+is past `unknown`, whatever its impact; Continue picks those ahead of `E1` even when `low`. Other
+Economics assumptions are researched like the rest. An input with no linked fact is researched or
+asked of the user as an `[unverified]` estimate, never filled from memory.
 
 Competition gets a competitor table in its `research` topic (name, segment, price, the weakness
 users complain about, source); the value-added assumption states "better than {competitors} at
@@ -173,7 +183,8 @@ Each with pessimistic / base / optimistic values, each value labeled and sourced
 
 Stdlib-only Python. Reads a JSON of inputs (model, ranges), prints a table of outputs for the three
 scenarios plus the sensitivity ranking. The agent writes the JSON, runs the script and pastes its
-output with each formula and its inputs into `MAP.md`. Every derived number comes from the script,
+output with each formula and its inputs into `MAP.md`, newest run on top and the previous runs kept
+below it. Every derived number comes from the script,
 never from the agent's head. Without `python3` the skill says so and stops the economics step.
 
 ### Economics result
@@ -191,7 +202,7 @@ target is at most `max_share`.
 | --- | --- |
 | **Discard** | A critical assumption is `dead`, or the economics don't close |
 | **Not enough information** | A critical assumption is still `unknown`: Continue has not reached it, or research found nothing either way |
-| **Worth testing** | No critical dead, none unknown, economics close on base; every critical left `mixed` is among the assumptions to go test |
+| **Worth testing** | No critical dead, none unknown, economics close on base; every critical left `mixed` or `against` is among the assumptions to go test |
 
 Rules are checked top to bottom; the first that matches is the verdict.
 
@@ -200,7 +211,7 @@ assumptions to test and as the best reason not to do it.
 
 Every verdict carries:
 - **The best reason NOT to do it**, even when positive.
-- **The 2-3 assumptions to go test**, when "worth testing".
+- **The assumptions to go test**, when "worth testing": every critical left `mixed` or `against`, at least 2.
 - **Its date.** When a fact it rests on expires in `research`, List and Continue show the verdict as
   **stale** and offer to re-verify before the user decides anything.
 
@@ -212,7 +223,8 @@ revenue; the hardest part to execute, in one line.
 
 ## Tests (optional)
 
-Offered when a critical assumption stays `mixed`; the user may decline. The cheapest test that can
+Offered when a critical assumption stays `mixed` or `against`; the user may decline. An `unknown`
+assumption may be tested before any research. The cheapest test that can
 settle it:
 
 - **Interviews:** questions about what the person **did**, never what they would do.
