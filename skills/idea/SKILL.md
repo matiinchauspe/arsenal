@@ -71,7 +71,7 @@ Read `MAP.md`, MAP-FORMAT.md, and the `research` sections its evidence links. Wh
 2. **Economics:** when the pick is `E1`, run the economics as ECONOMICS-FORMAT.md lays out, and skip step 3. Any other Economics assumption is researched like the rest (step 3), with a question that tries to show its input is worse than its base value.
 3. **Research:** hand the question to `research`, in the background when the host can, so the user keeps working; a host that cannot runs it in the foreground. The topic is the industry's (`salons-ar`) or a cross-cutting one (`online-payments-ar`), reusing a topic another idea already created. **Phrase the question to refute the assumption**: "what shows salon owners do not lose bookings to no-shows, or do not care?", never "confirm that salons lose bookings". A Competition and value added assumption asks for the competitor table (MAP-FORMAT.md, Competition).
 4. **Update:** when the answer returns, set the assumption's state by the transitions in MAP-FORMAT.md, link the sections, redraw the view, and log it.
-5. A critical assumption left `researched (mixed)` or `researched (against)`, or `unknown` with `nothing found`, gets the offer of a test (TEST-FORMAT.md). The user may decline; the Log says so and Continue goes on.
+5. A critical assumption left `researched (mixed)` or `researched (against)`, or `unknown` with `nothing found`, gets the offer of a test (TEST-FORMAT.md). The user may decline; the Log says so, the offer is not repeated for that assumption until its state changes, and Continue goes on.
 
 The user may ask for several assumptions in one turn; each still gets its own refuting question.
 

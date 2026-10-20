@@ -37,7 +37,7 @@ Every input has three values: **pessimistic** (bad for the business: low price, 
 
 ## Running
 
-1. For each value with no linked fact, hand `research` a question for it, or ask the user for their estimate (labeled `[unverified]`, user's estimate); never fill one from memory.
+1. For each value with no linked fact, hand `research` a question for it, or ask the user for their estimate (labeled `[unverified]`, user's estimate); never fill one from memory. When E1 is picked again because an input's fact expired, hand that fact to `research` to re-verify first.
 2. Write `<idea>/economics.json`:
 
 ```json
