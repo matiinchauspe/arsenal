@@ -260,6 +260,70 @@ class Compute(unittest.TestCase):
         self.assertIsNone(r["sensitivity"][0]["change"])
         self.assertEqual(r["deciding"], "cac")
 
+    def test_transactional_end_to_end(self):
+        s = {
+            "model": "transactional",
+            "target": 500,
+            "inputs": {
+                "volume": rng(800, 1000, 1200),
+                "take_rate": rng(0.045, 0.05, 0.06),
+                "gross_margin": rng(0.8, 0.9, 0.95),
+                "cac": rng(50, 30, 20),
+                "monthly_churn": rng(0.06, 0.04, 0.02),
+                "fixed_costs": rng(550, 400, 300),
+                "reachable_market": rng(3000, 5000, 8000),
+            },
+        }
+        r = economics.compute(s)
+        # base: 1000 * 0.05 * 0.9 - 0.04 * 30 = 43.8; ceil((400 + 500) / 43.8) = ceil(20.55) = 21
+        self.assertEqual(r["scenarios"]["base"]["customers_target"], 21)
+        # pessimistic: 800 * 0.045 * 0.8 - 0.06 * 50 = 25.8; ceil(1050 / 25.8) = 41; 41 / 3000 = 1.37%
+        self.assertEqual(r["result"], "closes comfortably")
+        # volume 800: 36 - 1.2 = 34.8 -> 26 (+5); gross_margin and fixed_costs -> 24 (+3); take_rate -> 23 (+2)
+        self.assertEqual(r["deciding"], "volume")
+
+    def test_one_time_end_to_end(self):
+        s = {
+            "model": "one-time",
+            "target": 1000,
+            "inputs": {
+                "price": rng(100, 150, 200),
+                "months_between_purchases": rng(15, 12, 6),
+                "gross_margin": rng(0.5, 0.6, 0.7),
+                "cac": rng(40, 25, 15),
+                "monthly_churn": rng(0.05, 0.03, 0.02),
+                "fixed_costs": rng(1000, 800, 600),
+                "reachable_market": rng(2000, 4000, 6000),
+            },
+        }
+        r = economics.compute(s)
+        # base: 150 / 12 * 0.6 - 0.03 * 25 = 6.75; ceil(1800 / 6.75) = ceil(266.67) = 267; 267 / 4000 = 6.68%
+        self.assertEqual(r["scenarios"]["base"]["customers_target"], 267)
+        # pessimistic: 100 / 15 * 0.5 - 0.05 * 40 = 1.33; ceil(2000 / 1.33) = 1500; 1500 / 2000 = 75%
+        self.assertEqual(r["result"], "closes, but hinges on price")
+        # price 100: 100 / 12 * 0.6 - 0.75 = 4.25 -> 424 (+157); months 15: 5.25 -> 343 (+76)
+        self.assertEqual(r["deciding"], "price")
+
+    def test_ads_end_to_end(self):
+        s = {
+            "model": "ads",
+            "inputs": {
+                "ad_arpu": rng(0.3, 0.5, 0.8),
+                "gross_margin": rng(0.8, 0.9, 0.95),
+                "cac": rng(2, 1, 0.5),
+                "monthly_churn": rng(0.1, 0.08, 0.05),
+                "fixed_costs": rng(500, 400, 300),
+                "reachable_market": rng(5000, 8000, 12000),
+            },
+        }
+        r = economics.compute(s)
+        # no target, so break-even: 0.5 * 0.9 - 0.08 * 1 = 0.37; ceil(400 / 0.37) = ceil(1081.08) = 1082
+        self.assertEqual(r["scenarios"]["base"]["customers_target"], 1082)
+        # 1082 / 8000 = 13.5%, above the default 10%
+        self.assertEqual(r["result"], "doesn't close")
+        # ad_arpu 0.3: 0.27 - 0.08 = 0.19 -> 2106 (+1024); cac 2: 0.29 -> 1380 (+298); fixed_costs 500 -> 1352 (+270)
+        self.assertEqual(r["deciding"], "ad_arpu")
+
     def test_compute_validates_first(self):
         s = copy.deepcopy(SUBSCRIPTION)
         s["model"] = "freemium"
