@@ -218,5 +218,54 @@ class Compute(unittest.TestCase):
             economics.compute(s)
 
 
+def run_cli(payload):
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+        json.dump(payload, f)
+        path = f.name
+    try:
+        return subprocess.run([sys.executable, SCRIPT, path], capture_output=True, text=True)
+    finally:
+        os.unlink(path)
+
+
+class Render(unittest.TestCase):
+    def test_render_shows_every_output_row(self):
+        out = economics.render(economics.compute(copy.deepcopy(SUBSCRIPTION)))
+        self.assertIn("Model: subscription · Currency: USD · Target: 1000.00/month · Plausible share: up to 10.00%", out)
+        self.assertIn("| Net contribution / month | 5.70 | 14.00 | 20.35 |", out)
+        self.assertIn("| LTV / CAC | 2.2 | 8.0 | 23.6 |", out)
+        self.assertIn("| Customers for the target | 316 | 108 | 69 |", out)
+        self.assertIn("| Market share for the target | 6.32% | 1.08% | 0.46% |", out)
+        self.assertIn("| price | 150 | +42 |", out)
+        self.assertIn("Deciding variable: price", out)
+        self.assertIn("Result: closes comfortably", out)
+
+    def test_render_names_what_cannot_be_reached(self):
+        out = economics.render(economics.compute(spec(cac=rng(500, 400, 300))))
+        # optimistic: 25 * 0.85 - 0.03 * 300 = 12.25; ceil((400 + 1000) / 12.25) = ceil(114.29) = 115
+        self.assertIn("| Customers for the target | never | never | 115 |", out)
+        self.assertIn("Deciding variable: none (the base scenario never reaches the target)", out)
+        self.assertIn("Result: doesn't close", out)
+
+
+class Cli(unittest.TestCase):
+    def test_prints_the_table(self):
+        p = run_cli(SUBSCRIPTION)
+        self.assertEqual(p.returncode, 0, p.stderr)
+        self.assertIn("Result: closes comfortably", p.stdout)
+
+    def test_invalid_input_exits_2(self):
+        bad = copy.deepcopy(SUBSCRIPTION)
+        del bad["inputs"]["cac"]
+        p = run_cli(bad)
+        self.assertEqual(p.returncode, 2)
+        self.assertIn("missing input 'cac'", p.stderr)
+
+    def test_no_argument_prints_usage(self):
+        p = subprocess.run([sys.executable, SCRIPT], capture_output=True, text=True)
+        self.assertEqual(p.returncode, 2)
+        self.assertIn("usage: economics.py <inputs.json>", p.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

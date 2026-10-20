@@ -153,3 +153,80 @@ def compute(spec):
         "deciding": deciding,
         "result": result,
     }
+
+
+def money(x):
+    return f"{x:.2f}"
+
+
+def ratio(x):
+    return "n/a" if x is None else f"{x:.1f}"
+
+
+def percent(x):
+    return "n/a" if x is None else f"{x * 100:.2f}%"
+
+
+def count(x):
+    return "never" if x is None else str(x)
+
+
+ROWS = (
+    ("Revenue per customer / month", "revenue", money),
+    ("Contribution / month", "contribution", money),
+    ("Net contribution / month", "net_contribution", money),
+    ("LTV", "ltv", lambda x: "unbounded" if x is None else money(x)),
+    ("LTV / CAC", "ltv_cac", ratio),
+    ("CAC payback (months)", "payback_months", lambda x: "never" if x is None else f"{x:.1f}"),
+    ("Customers for break-even", "customers_break_even", count),
+    ("Customers for the target", "customers_target", count),
+    ("Market share for break-even", "share_break_even", percent),
+    ("Market share for the target", "share_target", percent),
+)
+
+
+def render(r):
+    lines = [
+        f"Model: {r['model']} · Currency: {r['currency']} · Target: {money(r['target'])}/month"
+        f" · Plausible share: up to {percent(r['max_share'])}",
+        "",
+        "| Output | Pessimistic | Base | Optimistic |",
+        "| --- | --- | --- | --- |",
+    ]
+    for label, key, fmt in ROWS:
+        cells = " | ".join(fmt(r["scenarios"][s][key]) for s in SCENARIOS)
+        lines.append(f"| {label} | {cells} |")
+    lines.append("")
+    if r["sensitivity"]:
+        lines += [
+            "Sensitivity (each input at pessimistic, the rest at base; customers for the target):",
+            "",
+            "| Input | Customers | Change vs base |",
+            "| --- | --- | --- |",
+        ]
+        for row in r["sensitivity"]:
+            change = "never closes" if row["change"] is None else f"{row['change']:+d}"
+            lines.append(f"| {row['input']} | {count(row['customers'])} | {change} |")
+        lines += ["", f"Deciding variable: {r['deciding']}"]
+    else:
+        lines.append("Deciding variable: none (the base scenario never reaches the target)")
+    lines.append(f"Result: {r['result']}")
+    return "\n".join(lines)
+
+
+def main(argv):
+    if len(argv) != 2:
+        print("usage: economics.py <inputs.json>", file=sys.stderr)
+        return 2
+    try:
+        with open(argv[1]) as f:
+            spec = json.load(f)
+        print(render(compute(spec)))
+    except (OSError, json.JSONDecodeError, InputError) as e:
+        print(f"economics.py: {e}", file=sys.stderr)
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
