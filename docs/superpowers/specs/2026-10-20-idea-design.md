@@ -116,14 +116,19 @@ New proposes 2-4 assumptions per zone from the pitch; the user corrects, removes
    something.
 3. Set the assumption's state from the facts, link them, redraw the view, log it.
 
+An Economics assumption waits until the assumptions its inputs come from (price from Competition,
+CAC from Channel, reachable market from Market) are researched.
+
 Competition gets a competitor table in its `research` topic (name, segment, price, the weakness
 users complain about, source); the value-added assumption states "better than {competitors} at
 {what} for {segment}" and is researched against that table.
 
 ### The view
 
-`diagram` draws the map: zones as subgraphs, assumptions as nodes colored by state. It lives in
-`MAP.md` and is redrawn when a state changes.
+`diagram` draws one overview: one node per zone (7 nodes), labeled with its counts by state and
+colored by its riskiest assumption (`dead` > `researched (against)` > `unknown` >
+`researched (mixed)` > `in-test` > `researched (for)` > `validated`). It lives in `MAP.md` and is
+redrawn when a state changes.
 
 ## Economics
 
@@ -135,8 +140,8 @@ Detected from the pitch, corrected by the user:
 | --- | --- |
 | Subscription | price |
 | Transactional (marketplace, commission) | volume × take rate |
-| One-time sale | price × repurchase rate ÷ months between purchases |
-| Ads / audience | users × ad ARPU |
+| One-time sale | price ÷ months between purchases (churn: the monthly share of buyers who never buy again) |
+| Ads / audience | ad ARPU per user (a customer is a user) |
 
 ### Inputs
 
@@ -152,14 +157,17 @@ Each with pessimistic / base / optimistic values, each value labeled and sourced
 
 ### Outputs
 
-- **LTV** = monthly revenue per customer × gross margin ÷ monthly churn
+- **Contribution** = monthly revenue per customer × gross margin
+- **Net contribution** = contribution − monthly churn × CAC (what a customer leaves once replacing churned customers is paid for)
+- **LTV** = contribution ÷ monthly churn
 - **LTV / CAC** (below 3 is a warning; below 1 every customer loses money)
-- **CAC payback** in months
-- **Customers needed** for break-even and for the target
-- **Market share needed** = customers needed ÷ reachable market: the reality check
-- **Sensitivity:** each input moved to its pessimistic value alone, the rest at base; the input that
-  moves customers-needed the most is **the deciding variable**, and becomes a `critical` assumption
-  in the Economics zone if it is not one already.
+- **CAC payback** = CAC ÷ contribution, in months
+- **Customers needed** = (fixed costs + target) ÷ net contribution, rounded up; for break-even, the target is 0
+- **Market share needed** = customers needed ÷ reachable market: the reality check. Plausible up to
+  `max_share`, 10% by default, a rule of thumb the user may change.
+- **Sensitivity:** each input except the reachable market moved to its pessimistic value alone, the
+  rest at base; the input that moves customers-needed-for-the-target the most is **the deciding
+  variable**, and becomes a `critical` assumption in the Economics zone if it is not one already.
 
 ### `economics.py`
 
@@ -170,9 +178,12 @@ never from the agent's head. Without `python3` the skill says so and stops the e
 
 ### Economics result
 
-- **Doesn't close:** base inputs do not reach break-even, or the market share needed is not plausible.
-- **Closes, but hinges on X:** closes on base, not on pessimistic; X is the deciding variable.
-- **Closes comfortably:** closes even on pessimistic. Rare; the inputs get a second look.
+A scenario **closes** when its net contribution is positive and its market share needed for the
+target is at most `max_share`.
+
+- **Doesn't close:** the base scenario does not close.
+- **Closes, but hinges on X:** base closes, pessimistic does not; X is the deciding variable.
+- **Closes comfortably:** even pessimistic closes. Rare; the inputs get a second look.
 
 ## Verdict
 
@@ -183,6 +194,9 @@ never from the agent's head. Without `python3` the skill says so and stops the e
 | **Worth testing** | No critical dead, none unknown, economics close on base; every critical left `mixed` is among the assumptions to go test |
 
 Rules are checked top to bottom; the first that matches is the verdict.
+
+A critical `researched (against)` counts as `mixed` in these rules, and is named first among the
+assumptions to test and as the best reason not to do it.
 
 Every verdict carries:
 - **The best reason NOT to do it**, even when positive.
