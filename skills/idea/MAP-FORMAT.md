@@ -87,19 +87,23 @@ Every idea starts with these, which New fills in from the pitch:
 - `high`: if it is false, the idea has to pivot (another segment, another price, another channel).
 - `low`: if it is false, it is adjusted on the way.
 
+Impact is set at New's checkpoint. Lowering it after the assumption was researched is logged with the reason, and the next verdict names it under Best reason not to do it.
+
 ### States
 
 | State | Means | Reached by |
 | --- | --- | --- |
-| `unknown` | nothing read yet | New |
-| `researched (for)` | research tried to break it and failed | Continue |
+| `unknown` | no fact found yet that bears on it | New |
+| `researched (for)` | research found facts that bear on it, and none of them breaks it | Continue |
 | `researched (against)` | the facts lean against it, but no `[fact]` proves it false | Continue |
 | `researched (mixed)` | the facts point both ways, or are too weak to lean | Continue |
-| `in-test` | a test is written and waiting for the user | Test |
+| `in-test` | a test is written and waiting for the user | Test, from `unknown` or a researched state |
 | `validated` | a real-world test passed its threshold | Result |
 | `dead` | a `[fact]` from a primary source, or a failed test, proves it false | Continue or Result |
 
 ```
+  ┌────────────────────────────────────────────────────┐   (a test before any research)
+  │                                                    ▼
 unknown ──► researched (for | against | mixed) ──► in-test ──► validated
                │                                           └──► dead
                └──► dead   (only on a primary-source [fact] against it)
@@ -107,7 +111,8 @@ unknown ──► researched (for | against | mixed) ──► in-test ──►
 
 - **Desk research never validates.** It reaches `researched (for)` at most.
 - **`[secondary]` and `[inference]` never kill.** Alone they leave an assumption `researched (against)`.
-- An assumption already researched is researched again when a fact it rests on expires, or when the user brings new evidence; its state moves between the researched states.
+- **Nothing found is not evidence.** A search that finds nothing bearing on an assumption leaves it `unknown`, writes `searched {YYYY-MM-DD}: nothing found` as its Evidence, and Continue skips it until the user brings a lead or a related fact expires.
+- An assumption already researched is researched again when a fact it rests on expires, or when the user brings new evidence; its state moves between the researched states. What the user brings is a lead handed to `research` as its starting point, never a source; a test Result is the exception (TEST-FORMAT.md).
 - A `dead` or `validated` assumption only changes when the user explicitly reopens it; the Log says why.
 
 ### Evidence

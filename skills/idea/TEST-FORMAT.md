@@ -38,6 +38,7 @@ Under `## Tests` in `MAP.md`, numbered `T1`, `T2`... and never reused:
 
 - Written: {YYYY-MM-DD}
 - Assumption: {ID}: {statement}
+- Before: {the assumption's state when the test was written}
 - Method: {what the user does, step by step}
 - Sample: {how many, who, where to find them}
 - Metric: {what is counted}
@@ -50,7 +51,7 @@ Under `## Tests` in `MAP.md`, numbered `T1`, `T2`... and never reused:
 
 1. Name the assumption, or take the one Continue would pick among the critical ones left `mixed` or `against`.
 2. Propose the kind, the sample, the metric and the threshold, and say why that threshold: what result would make you believe it, and what would not.
-3. **Checkpoint:** the user corrects the block; then write it, set the assumption to `in-test`, link the test, redraw the view and log it.
+3. **Checkpoint:** the user corrects the block; then write it with the assumption's current state as **Before**, set the assumption to `in-test`, link the test, redraw the view and log it.
 
 Done when the block is written with a threshold, and the assumption is `in-test`.
 
@@ -60,9 +61,9 @@ The user ran a test and tells what happened.
 
 1. Write the raw numbers the user gives under the block's Result, with the date: "6 interviewed, 4 lost a booking last month". Quotes from interviews go in as said.
 2. Compare against **Passes when**, and nothing else:
-   - At or above it: the assumption becomes `validated`.
-   - Below it: the assumption becomes `dead`.
-   - A smaller sample than the block says: **inconclusive**. The assumption goes back to its researched state, and the test stays open.
+   - Meets **Passes when** → `validated`.
+   - Misses it → `dead`.
+   - A smaller sample than the block says: **inconclusive**. The assumption goes back to the block's **Before** state, and the test stays open.
 3. A user who wants a different threshold after seeing the result gets a new test, `T{n+1}`, with the new threshold; the Log says it changed from what to what. The result already in stays judged against the old threshold.
 4. Link the result, redraw the view, log it, and say what changed in the verdict, if there is one.
 

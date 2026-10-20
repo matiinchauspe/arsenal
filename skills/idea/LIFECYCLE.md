@@ -23,7 +23,7 @@ The user asks for the verdict. It can be asked at any time; the rules say what i
 | --- | --- |
 | **Discard** | A `critical` assumption is `dead`, or the latest economics run doesn't close |
 | **Not enough information** | A `critical` assumption is still `unknown`: Continue has not reached it, or research found nothing either way |
-| **Worth testing** | None of the above: no critical dead, none unknown, and the economics close on base |
+| **Worth testing** | None of the above: no critical dead, none unknown, the economics close on base, and every critical left `researched (mixed)` or `researched (against)` is in To test next |
 
 A critical `researched (against)` counts as `researched (mixed)` in these rules, and is named first among the assumptions to test and as the best reason not to do it.
 
@@ -33,8 +33,8 @@ A critical `researched (against)` counts as `researched (mixed)` in these rules,
 ### {YYYY-MM-DD} · {Discard | Not enough information | Worth testing}
 
 - Why: {the rule that matched, with the assumption IDs and the economics result}
-- Best reason not to do it: {one or two lines, linked}
-- To test next: {2 or 3 IDs, each with the test kind that settles it} (Worth testing only)
+- Best reason not to do it: {one or two lines, linked; then every impact lowered after research since the previous verdict}
+- To test next: {every critical left mixed or against, at least 2, each with the test kind that settles it} (Worth testing only)
 - Still unknown: {the critical IDs} (Not enough information only)
 - Rests on: {the research sections and the economics run, and the earliest expiry among their facts}
 
@@ -48,7 +48,7 @@ A critical `researched (against)` counts as `researched (mixed)` in these rules,
 - Hardest part: {one line}
 ```
 
-**The best reason not to do it is always written**, even for "worth testing": the strongest fact or assumption against the idea. Not finding one means the research did not look hard enough: go back to the weakest critical assumption.
+**The best reason not to do it is always written**, even for "worth testing": the strongest fact or assumption against the idea, and every impact lowered after research since the previous verdict, with the reason the Log gives. Not finding one means the research did not look hard enough: go back to the weakest critical assumption.
 
 **What this idea demands describes the work, never the user.** It never says whether the user can do it: the user compares it with what they have. Each line that rests on a fact links it; the rest is an `[inference]`, named as such.
 
@@ -69,4 +69,4 @@ Done when `STATUS.md` has the new state and the Log has the reason.
 
 ## Stale verdicts
 
-A verdict is **stale** when a fact it rests on has expired, as `research` defines expiry, or when an assumption changed state after the verdict's date. List shows it as stale, and Continue says so before picking. A stale verdict is never handed back as current: offer to re-verify through `research`, then issue it again.
+A verdict is **stale** when a fact it rests on has expired, as `research` defines expiry, or when an assumption changed state after the verdict's date. List shows it as stale, and Continue says so before picking. A stale verdict is never handed back as current: offer to re-verify the expired facts through `research`, or just issue it again when only states changed.
