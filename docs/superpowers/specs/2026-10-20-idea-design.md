@@ -117,7 +117,7 @@ New proposes 2-4 assumptions per zone from the pitch; the user corrects, removes
    on a tie, the cheapest to research. With no critical left open, the same over `high`. Open means
    `unknown` (not marked nothing found), or researched with an expired fact or a new lead from the
    user; a critical left `mixed` or `against` is not re-picked but offered a test. With nothing
-   open, the map is ready for a verdict.
+   left to pick, the map is ready for a verdict.
 2. Run the `research` flow on the industry topic (e.g. `salons-ar`) or a cross-cutting one (e.g.
    `online-payments-ar`), with the question **phrased to refute the assumption**: research looks for
    evidence against it, never for confirmation. What survives an attempt to break it is worth

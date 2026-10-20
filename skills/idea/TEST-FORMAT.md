@@ -49,7 +49,7 @@ Under `## Tests` in `MAP.md`, numbered `T1`, `T2`... and never reused:
 
 ## Test
 
-1. Name the assumption, or take the one Continue would pick among the critical ones left `mixed` or `against`.
+1. Name the assumption, or take the one Continue would pick among the critical ones it offers a test for (SKILL.md, Continue, step 5).
 2. Propose the kind, the sample, the metric and the threshold, and say why that threshold: what result would make you believe it, and what would not.
 3. **Checkpoint:** the user corrects the block; then write it with the assumption's current state as **Before**, set the assumption to `in-test`, link the test, redraw the view and log it.
 
