@@ -68,3 +68,36 @@ def revenue_per_customer(model, v):
     if model == "one-time":
         return v["price"] / v["months_between_purchases"]
     return v["ad_arpu"]
+
+
+def customers_for(amount, net_contribution):
+    """Customers needed to earn `amount` a month; None when no number of customers does."""
+    if net_contribution <= 0:
+        return None
+    return math.ceil(round(amount / net_contribution, 9))
+
+
+def share(customers, market):
+    if customers is None or market <= 0:
+        return None
+    return customers / market
+
+
+def metrics(model, v, target):
+    revenue = revenue_per_customer(model, v)
+    contribution = revenue * v["gross_margin"]
+    net = contribution - v["monthly_churn"] * v["cac"]
+    ltv = contribution / v["monthly_churn"] if v["monthly_churn"] > 0 else None
+    m = {
+        "revenue": revenue,
+        "contribution": contribution,
+        "net_contribution": net,
+        "ltv": ltv,
+        "ltv_cac": ltv / v["cac"] if ltv is not None and v["cac"] > 0 else None,
+        "payback_months": v["cac"] / contribution if contribution > 0 else None,
+        "customers_break_even": customers_for(v["fixed_costs"], net),
+        "customers_target": customers_for(v["fixed_costs"] + target, net),
+    }
+    m["share_break_even"] = share(m["customers_break_even"], v["reachable_market"])
+    m["share_target"] = share(m["customers_target"], v["reachable_market"])
+    return m
