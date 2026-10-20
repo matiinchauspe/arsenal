@@ -169,5 +169,54 @@ class Metrics(unittest.TestCase):
         self.assertIsNone(economics.metrics("subscription", v, 1000)["payback_months"])
 
 
+class Compute(unittest.TestCase):
+    def test_sensitivity_ranks_inputs_by_how_much_they_move_customers(self):
+        r = economics.compute(copy.deepcopy(SUBSCRIPTION))
+        ranking = [(row["input"], row["customers"], row["change"]) for row in r["sensitivity"]]
+        self.assertEqual(ranking, [
+            ("price", 150, 42),
+            ("fixed_costs", 129, 21),
+            ("gross_margin", 125, 17),
+            ("monthly_churn", 118, 10),
+            ("cac", 116, 8),
+        ])
+        self.assertEqual(r["deciding"], "price")
+
+    def test_closes_comfortably_when_even_pessimistic_closes(self):
+        self.assertEqual(economics.compute(copy.deepcopy(SUBSCRIPTION))["result"], "closes comfortably")
+
+    def test_hinges_when_pessimistic_needs_an_implausible_share(self):
+        r = economics.compute(spec(reachable_market=rng(2000, 10000, 15000)))
+        self.assertEqual(r["result"], "closes, but hinges on price")
+
+    def test_doesnt_close_when_base_net_contribution_is_negative(self):
+        r = economics.compute(spec(cac=rng(500, 400, 300)))
+        self.assertEqual(r["result"], "doesn't close")
+        self.assertEqual(r["sensitivity"], [])
+        self.assertIsNone(r["deciding"])
+
+    def test_doesnt_close_when_base_needs_an_implausible_share(self):
+        r = economics.compute(spec(reachable_market=rng(500, 1000, 1500)))  # 108 / 1000 = 10.8%
+        self.assertEqual(r["result"], "doesn't close")
+
+    def test_max_share_can_be_changed(self):
+        s = spec(reachable_market=rng(500, 1000, 1500))
+        s["max_share"] = 0.25  # base 10.8% closes; pessimistic 316 / 500 = 63.2% does not
+        self.assertEqual(economics.compute(s)["result"], "closes, but hinges on price")
+
+    def test_an_input_that_breaks_the_business_ranks_first(self):
+        r = economics.compute(spec(cac=rng(400, 40, 30)))
+        self.assertEqual(r["sensitivity"][0]["input"], "cac")
+        self.assertIsNone(r["sensitivity"][0]["customers"])
+        self.assertIsNone(r["sensitivity"][0]["change"])
+        self.assertEqual(r["deciding"], "cac")
+
+    def test_compute_validates_first(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["model"] = "freemium"
+        with self.assertRaises(economics.InputError):
+            economics.compute(s)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -101,3 +101,55 @@ def metrics(model, v, target):
     m["share_break_even"] = share(m["customers_break_even"], v["reachable_market"])
     m["share_target"] = share(m["customers_target"], v["reachable_market"])
     return m
+
+
+def scenario_values(spec, scenario):
+    return {name: r[scenario] for name, r in spec["inputs"].items()}
+
+
+def closes(m, max_share):
+    return m["share_target"] is not None and m["share_target"] <= max_share
+
+
+def sensitivity(spec, base):
+    """Each input except the market at pessimistic, the rest at base, ranked by customers added.
+
+    An input that leaves no number of customers enough ranks first, with no customers and no change.
+    """
+    if base["customers_target"] is None:
+        return []
+    rows = []
+    for name in spec["inputs"]:
+        if name == "reachable_market":
+            continue
+        v = scenario_values(spec, "base")
+        v[name] = spec["inputs"][name]["pessimistic"]
+        customers = metrics(spec["model"], v, spec.get("target", 0))["customers_target"]
+        change = None if customers is None else customers - base["customers_target"]
+        rows.append({"input": name, "customers": customers, "change": change})
+    return sorted(rows, key=lambda row: math.inf if row["change"] is None else row["change"], reverse=True)
+
+
+def compute(spec):
+    validate(spec)
+    target = spec.get("target", 0)
+    max_share = spec.get("max_share", DEFAULT_MAX_SHARE)
+    scenarios = {s: metrics(spec["model"], scenario_values(spec, s), target) for s in SCENARIOS}
+    ranking = sensitivity(spec, scenarios["base"])
+    deciding = ranking[0]["input"] if ranking else None
+    if not closes(scenarios["base"], max_share):
+        result = "doesn't close"
+    elif closes(scenarios["pessimistic"], max_share):
+        result = "closes comfortably"
+    else:
+        result = f"closes, but hinges on {deciding}"
+    return {
+        "model": spec["model"],
+        "currency": spec.get("currency", ""),
+        "target": target,
+        "max_share": max_share,
+        "scenarios": scenarios,
+        "sensitivity": ranking,
+        "deciding": deciding,
+        "result": result,
+    }
