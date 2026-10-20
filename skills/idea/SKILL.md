@@ -12,7 +12,7 @@ An idea is a building on ground nobody has surveyed. This skill never promises t
 The **ideas home** is `$ARSENAL_IDEAS_HOME` when set, else `~/ideas`. Each idea is one folder, `<ideas home>/<slug>/`, holding `MAP.md` and `STATUS.md`; `<ideas home>/IDEAS.md` keeps the ideas Generate proposed and the user did not pick.
 
 1. **No argument:** the intent is **List**.
-2. An argument that starts with `generate` is **Generate**; what follows its colon is the starting point.
+2. An argument whose part before the first colon is exactly `generate` (or the argument `generate` alone) is **Generate**; what follows its colon is the starting point.
 3. Otherwise split the argument at its first colon into the idea and the rest. Slug the idea in kebab-case; if it is close to an existing idea's folder, ask whether it is the same idea.
 4. Read the intent from the rest; when it fits none of these, ask what the user wants to do:
 
@@ -33,7 +33,7 @@ Done when you hold the ideas home, one intent and, unless it is List or Generate
 
 ## Where things are written
 
-Write only inside the ideas home. Facts about a market, an industry or a competitor live in `research` topics and are linked from `MAP.md`, never copied: they expire, and `research` is what re-verifies them. The repo the session was opened in is never written to. Every intent that changes an idea appends one line to its `STATUS.md` Log, as [MAP-FORMAT.md](./MAP-FORMAT.md) lays out.
+Write only inside the ideas home, and inside the research home through `research`. Facts about a market, an industry or a competitor live in `research` topics and are linked from `MAP.md`, never copied: they expire, and `research` is what re-verifies them. The repo the session was opened in is never written to. Every intent that changes an idea appends one line to its `STATUS.md` Log, as [MAP-FORMAT.md](./MAP-FORMAT.md) lays out.
 
 ## List
 
@@ -67,15 +67,15 @@ Done when `MAP.md` holds the pitch, the model and every zone with at least one a
 
 Read `MAP.md`, MAP-FORMAT.md, and the `research` sections its evidence links. When the latest verdict is stale, say so first.
 
-1. **Pick** the next assumption: the open `critical` one with the least evidence, `unknown` before `researched (mixed)` before `researched (against)`; on a tie, the cheapest to research. With no critical one open, the same over `high`. An assumption `in-test` waits for the user, and an Economics assumption waits for its inputs (ECONOMICS-FORMAT.md, Writing a run): skip both. Tell the user which one and why.
-2. **Economics:** when the pick is in the Economics zone, run the economics as ECONOMICS-FORMAT.md lays out, and skip step 3.
+1. **Pick** the next open assumption. An assumption is **open** when it is `unknown`, unless its Evidence says `nothing found` and since then the user brought no lead and no related fact expired; or when it is researched and a fact it rests on has expired or the user brought a new lead. A researched assumption with neither is not picked again: a critical one left `researched (mixed)` or `researched (against)` gets the offer of a test instead (step 5). Pick the open `critical` one with the least evidence, `unknown` before `researched (mixed)` before `researched (against)`; on a tie, the cheapest to research. With no critical one open, the same over `high`. An assumption `in-test` waits for the user: skip it. `E1` waits for its inputs, and Continue picks the assumptions it waits on ahead of it, even when they are `low` (ECONOMICS-FORMAT.md, Writing a run). Tell the user which one and why. When nothing is open, say the map is ready for a verdict, and go to step 5.
+2. **Economics:** when the pick is `E1`, run the economics as ECONOMICS-FORMAT.md lays out, and skip step 3. Any other Economics assumption is researched like the rest (step 3), with a question that tries to show its input is worse than its base value.
 3. **Research:** hand the question to `research`, in the background when the host can, so the user keeps working; a host that cannot runs it in the foreground. The topic is the industry's (`salons-ar`) or a cross-cutting one (`online-payments-ar`), reusing a topic another idea already created. **Phrase the question to refute the assumption**: "what shows salon owners do not lose bookings to no-shows, or do not care?", never "confirm that salons lose bookings". A Competition and value added assumption asks for the competitor table (MAP-FORMAT.md, Competition).
 4. **Update:** when the answer returns, set the assumption's state by the transitions in MAP-FORMAT.md, link the sections, redraw the view, and log it.
-5. A critical assumption left `researched (mixed)` or `researched (against)` gets the offer of a test (TEST-FORMAT.md). The user may decline; the Log says so and Continue goes on.
+5. A critical assumption left `researched (mixed)` or `researched (against)`, or `unknown` with `nothing found`, gets the offer of a test (TEST-FORMAT.md). The user may decline; the Log says so and Continue goes on.
 
 The user may ask for several assumptions in one turn; each still gets its own refuting question.
 
-Done when the picked assumption has a new state backed by linked facts, or the economics ran; the view is redrawn; the Log has the line; and the user knows what Continue would pick next, or that the map is ready for a verdict.
+Done when the picked assumption has a new state backed by linked facts, or a dated `nothing found`, or the economics ran, or nothing was open; the view is redrawn when a state changed; the Log has the line; and the user knows what Continue would pick next, or that the map is ready for a verdict.
 
 ## Language
 

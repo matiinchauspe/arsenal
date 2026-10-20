@@ -41,7 +41,7 @@
 
 {same table, IDs E1...}
 
-{the latest run, as ECONOMICS-FORMAT.md lays out, or "Not run yet."}
+{the runs, newest first, as ECONOMICS-FORMAT.md lays out, or "Not run yet."}
 
 ## Channel
 

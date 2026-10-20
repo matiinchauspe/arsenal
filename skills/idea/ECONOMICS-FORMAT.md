@@ -29,7 +29,7 @@ Every model also takes:
 
 `price` comes from the competitor table (MAP-FORMAT.md, Competition). When nobody charges for anything similar, say so: that is information, and the price is then an `[inference]` named as such.
 
-Every input has three values: **pessimistic** (bad for the business: low price, high CAC, high churn), **base** and **optimistic**. Each value is labeled as TOPIC-FORMAT.md in `research` defines and links the fact it comes from. A value with no source is the user's guess and is labeled `[unverified]`.
+Every input has three values: **pessimistic** (bad for the business: low price, high CAC, high churn), **base** and **optimistic**. Each value is labeled as TOPIC-FORMAT.md in `research` defines and links the fact it comes from. A value with no linked fact can only be the user's own estimate (Running, step 1), labeled `[unverified]`.
 
 **The target** is asked once per idea: "how much a month do you want it to make, once costs are paid?" It is written in `STATUS.md`; with no answer, the target is break-even (0).
 
@@ -37,7 +37,8 @@ Every input has three values: **pessimistic** (bad for the business: low price, 
 
 ## Running
 
-1. Write `<idea>/economics.json`:
+1. For each value with no linked fact, hand `research` a question for it, or ask the user for their estimate (labeled `[unverified]`, user's estimate); never fill one from memory.
+2. Write `<idea>/economics.json`:
 
 ```json
 {
@@ -56,8 +57,8 @@ Every input has three values: **pessimistic** (bad for the business: low price, 
 }
 ```
 
-2. Run `python3 <this skill's folder>/economics.py <idea>/economics.json`. It exits 2 with the reason on a wrong input: fix the JSON and run it again.
-3. Without `python3`, tell the user, and stop the economics: `E1` stays where it is, and the verdict cannot be "worth testing" until a run exists.
+3. Run `python3 <this skill's folder>/economics.py <idea>/economics.json`. It exits 2 with the reason on a wrong input: fix the JSON and run it again.
+4. Without `python3`, tell the user, and stop the economics: `E1` stays where it is, and the verdict cannot be "worth testing" until a run exists.
 
 ## Formulas
 
@@ -80,7 +81,7 @@ A scenario **closes** when its net contribution is positive and its market share
 
 ## Writing a run
 
-Under the Economics zone's table in `MAP.md`, replacing the previous run:
+Under the Economics zone's table in `MAP.md`, on top of the previous runs, which are kept below it so a verdict's `run {date}` link still resolves:
 
 ```md
 ### Run {YYYY-MM-DD}
@@ -96,8 +97,8 @@ Under the Economics zone's table in `MAP.md`, replacing the previous run:
 
 Then:
 
-1. Set `E1` from the result: **closes comfortably** or **closes, but hinges** → `researched (for)`; **doesn't close** → `researched (against)`. Link the run.
-2. When the deciding variable is not already a `critical` Economics assumption, add one ("{input} is at least {its base value}", `critical`), and say so.
+1. Set `E1` from the result: **closes comfortably** or **closes, but hinges** → `researched (for)`; **doesn't close** → `researched (against)`. When the deciding variable's base value is `[unverified]`, E1 goes to `researched (mixed)` at most. Link the run.
+2. When the deciding variable is not already a `critical` Economics assumption, add one, `critical`, and say so: "{input} is no worse than {its base value}", that is at most it for `cac`, `monthly_churn`, `fixed_costs` and `months_between_purchases`, and at least it for the rest.
 3. Log the run with its result.
 
-An Economics assumption waits until the assumptions its inputs come from (price from Competition, CAC from Channel, reachable market from Market) are researched; until then Continue skips it. A run is **stale** when a fact one of its inputs links has expired; Continue runs it again after `research` re-verifies that fact.
+`E1` waits until at least one Competition and value added assumption (for the price), one Channel assumption (for CAC) and one Market assumption (for the reachable market) is in any state but `unknown`, whatever its impact; one left `unknown` with `nothing found` also counts, and its input is then the user's estimate (Running, step 1). Continue picks those ahead of `E1`, even when they are `low`; a zone with none gets one added, impact `high`, and the user is told. A run is **stale** when a fact one of its inputs links has expired; Continue runs it again after `research` re-verifies that fact.

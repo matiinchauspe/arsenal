@@ -1,6 +1,6 @@
 # Test format
 
-A test is how an assumption leaves the desk. It is **always optional**: offer it when a critical assumption is left `researched (mixed)` or `researched (against)`, or when the user asks; a declined offer is logged and the work goes on. **The threshold is written before the test runs, and never moves afterwards**: a threshold set after the result is a way of convincing yourself it passed.
+A test is how an assumption leaves the desk. It is **always optional**: offer it when a critical assumption is left `researched (mixed)` or `researched (against)`, or `unknown` with `nothing found`, or when the user asks; a declined offer is logged and the work goes on. **The threshold is written before the test runs, and never moves afterwards**: a threshold set after the result is a way of convincing yourself it passed.
 
 ## Kinds
 
