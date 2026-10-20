@@ -63,7 +63,7 @@ The user ran a test and tells what happened.
 2. Compare against **Passes when**, and nothing else:
    - Meets **Passes when** → `validated`.
    - Misses it → `dead`.
-   - A smaller sample than the block says: **inconclusive**. The assumption goes back to the block's **Before** state, and the test stays open.
+   - A smaller sample than the block says: **inconclusive**. The assumption goes back to the block's **Before** state, and the test stays open: its Result says `inconclusive, {n} of {sample}`, Continue does not offer it another test while it is open, and the verdict lists it under To test next as already running. A later Result for it adds to the same sample.
 3. A user who wants a different threshold after seeing the result gets a new test, `T{n+1}`, with the new threshold; the Log says it changed from what to what. The result already in stays judged against the old threshold.
 4. Link the result, redraw the view, log it, and say what changed in the verdict, if there is one.
 
