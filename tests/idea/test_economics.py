@@ -157,6 +157,22 @@ class Validation(unittest.TestCase):
         with self.assertRaisesRegex(economics.InputError, "max_share must be a finite number above 0 and at most 1"):
             economics.validate(s)
 
+    def test_value_above_the_cap(self):
+        s = spec(price=rng(1e13, 20, 25))
+        with self.assertRaisesRegex(economics.InputError, "'price' pessimistic must be at most 1e12"):
+            economics.validate(s)
+
+    def test_target_above_the_cap(self):
+        s = copy.deepcopy(SUBSCRIPTION)
+        s["target"] = 1e13
+        with self.assertRaisesRegex(economics.InputError, "target must be at most 1e12"):
+            economics.validate(s)
+
+    def test_integer_too_large_for_a_float(self):
+        s = spec(fixed_costs=rng(800, 10 ** 400, 400))
+        with self.assertRaisesRegex(economics.InputError, "'fixed_costs' base must be a finite number"):
+            economics.validate(s)
+
 
 def values(s, scenario):
     return {name: r[scenario] for name, r in s["inputs"].items()}
@@ -415,6 +431,18 @@ class Cli(unittest.TestCase):
     def test_overflowing_value_exits_2(self):
         raw = json.dumps(SUBSCRIPTION).replace('"base": 500,', '"base": 1e400,')
         self.assert_rejected(run_cli_raw(raw.encode()), "'fixed_costs' base must be a finite number")
+
+    def test_huge_integer_literal_exits_2(self):
+        raw = json.dumps(SUBSCRIPTION).replace('"base": 500,', '"base": 1' + "0" * 399 + ",")
+        self.assert_rejected(run_cli_raw(raw.encode()), "'fixed_costs' base must be a finite number")
+
+    def test_sum_that_overflows_exits_2(self):
+        bad = spec(fixed_costs=rng(1e308, 1e308, 1e308))
+        bad["target"] = 1e308
+        self.assert_rejected(run_cli(bad), "must be at most 1e12")
+
+    def test_deeply_nested_json_exits_2(self):
+        self.assert_rejected(run_cli_raw(b"[" * 200000), "too deeply nested")
 
     def test_boolean_target_exits_2(self):
         bad = copy.deepcopy(SUBSCRIPTION)

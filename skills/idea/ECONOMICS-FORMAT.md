@@ -29,7 +29,7 @@ Every model also takes:
 
 `price` comes from the competitor table (MAP-FORMAT.md, Competition). When nobody charges for anything similar, say so: that is information, and the price is then an `[inference]` named as such.
 
-Every input has three values: **pessimistic** (bad for the business: low price, high CAC, high churn), **base** and **optimistic**. Each value is labeled as TOPIC-FORMAT.md in `research` defines and links the fact it comes from. A value with no linked fact can only be the user's own estimate (Running, step 1), labeled `[unverified]`.
+Every input has three values: **pessimistic** (bad for the business: low price, high CAC, high churn), **base** and **optimistic**. Each value is labeled as TOPIC-FORMAT.md in `research` defines and links the fact it comes from. A value with no linked fact can only be the user's own estimate (Running, step 1), labeled `[unverified]`. No value, and no target, may be above 1e12: `economics.py` rejects it.
 
 **The target** is asked once per idea: "how much a month do you want it to make, once costs are paid?" It is written in `STATUS.md`; with no answer, the target is break-even (0).
 

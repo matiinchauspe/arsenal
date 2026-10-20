@@ -19,6 +19,7 @@ MODELS = {
 FRACTIONS = ("gross_margin", "monthly_churn", "take_rate")
 POSITIVE = ("months_between_purchases",)
 DEFAULT_MAX_SHARE = 0.10
+MAX_VALUE = 1e12
 
 
 class InputError(ValueError):
@@ -34,7 +35,12 @@ def required_inputs(model):
 
 
 def is_number(value):
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:  # an int too large for a float
+        return False
 
 
 def validate(spec):
@@ -60,6 +66,8 @@ def validate(spec):
                 raise InputError(f"{name!r} {scenario} must be a finite number")
             if value < 0:
                 raise InputError(f"{name!r} {scenario} must not be negative")
+            if value > MAX_VALUE:
+                raise InputError(f"{name!r} {scenario} must be at most 1e12")
             if name in FRACTIONS and value > 1:
                 raise InputError(f"{name!r} {scenario} must be between 0 and 1")
             if name in POSITIVE and value == 0:
@@ -67,6 +75,8 @@ def validate(spec):
     target = spec.get("target", 0)
     if not is_number(target) or target < 0:
         raise InputError("target must be a finite number, 0 or more")
+    if target > MAX_VALUE:
+        raise InputError("target must be at most 1e12")
     max_share = spec.get("max_share", DEFAULT_MAX_SHARE)
     if not is_number(max_share) or not 0 < max_share <= 1:
         raise InputError("max_share must be a finite number above 0 and at most 1")
@@ -236,6 +246,9 @@ def main(argv):
         print(render(compute(spec)))
     except UnicodeDecodeError:
         print(f"economics.py: {argv[1]} is not UTF-8 text", file=sys.stderr)
+        return 2
+    except (RecursionError, OverflowError):
+        print(f"economics.py: {argv[1]}: a value is too large or the JSON too deeply nested", file=sys.stderr)
         return 2
     except (OSError, json.JSONDecodeError, InputError) as e:
         print(f"economics.py: {e}", file=sys.stderr)
