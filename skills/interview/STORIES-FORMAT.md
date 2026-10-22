@@ -54,7 +54,7 @@ How far the story reaches, which is what MOCK-FORMAT.md's [Scope by level](./MOC
 
 ## The bootstrap
 
-Run it when `STORIES.md` is missing, or when a behavioral mock finds fewer than five stories. Aim for five to eight stories that together cover most competencies. Ask for one story at a time with a concrete prompt ("a time something you shipped broke in production", "a time you disagreed with your manager"), then ask through STAR until each part is there. Prompt next for a competency no story covers yet. When no story reaches the scope of the levels in `PROFILE.md`'s Targets, prompt next for one that does ("a time you led something across several teams").
+Run it when `STORIES.md` is missing, or when a behavioral mock finds fewer than five stories. Aim for five to eight stories that together cover most competencies. Ask for one story at a time with a concrete prompt ("a time something you shipped broke in production", "a time you disagreed with your manager"), then ask through STAR until each part is there. Prompt next for a competency no story covers yet. When no story reaches the scope of the highest level in `PROFILE.md`'s Targets, prompt next for one that does ("a time you led something across several teams"). Set each new story's Scope, confirmed with the user.
 
 Done when there are at least five stories, or the user stopped, and the Index lists every story.
 

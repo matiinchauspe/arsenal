@@ -101,7 +101,7 @@ The root is the readiness every process draws on, so practice with no process ai
 - Each open process with its next stage, its date and the days left.
 - The three weakest spots, by QUESTIONS-FORMAT.md's rule, each with its latest evidence.
 - The competencies no story covers, and whether any story reaches the scope of the levels in `PROFILE.md`'s Targets.
-- The patterns never seen and the weak patterns, by [PATTERNS-FORMAT.md](./PATTERNS-FORMAT.md)'s rule, when the user's targets include live coding.
+- The patterns never seen and the weak patterns, by [PATTERNS-FORMAT.md](./PATTERNS-FORMAT.md)'s rule, when `PATTERNS.md` exists or an open process has a `live-coding` stage.
 
 Then propose one mock: its type, its mode and why. When an open process has a stage within 3 days, propose that stage's mock under that process instead. With an argument naming a type, skip the proposal and run that one. A mock with no process is written under `practice/`, and its mode is drill unless the user asks for a simulation.
 
