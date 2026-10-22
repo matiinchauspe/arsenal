@@ -116,7 +116,7 @@ Done when MOCK-FORMAT.md's record is written, and `QUESTIONS.md`, `STORIES.md` a
 
 The day before each stage, the plan writes `cheatsheet-<stage>.html` into the process: one printable page, two at most, to read on the morning of the interview. Build it like `teach`'s reference documents: beautiful, quick to scan, Tufte rather than a slide.
 
-- The stories most likely to be asked, each as a three-line STAR reminder, mapped to the questions they answer.
+- The stories most likely to be asked, each as a three-line STAR reminder, mapped to the questions they answer; stories at the scope of the process's level come first.
 - The company facts that matter for this stage, each with its read date, from the dossier.
 - The two or three rubric criteria this user keeps missing, from `QUESTIONS.md`, as reminders.
 - For a recruiter stage: the one-minute pitch and the answer to the expectations question, built from `PROFILE.md` without writing the floor.
