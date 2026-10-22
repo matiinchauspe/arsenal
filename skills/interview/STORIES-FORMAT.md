@@ -9,13 +9,14 @@
 
 ## Index
 
-| Id | Title | Competencies | Last scored | Used in |
-| --- | --- | --- | --- | --- |
-| [S-01](#s-01) | {title} | {competency}, {competency} | {score}/4, {YYYY-MM-DD}, or "never" | {company · stage, YYYY-MM-DD; …} |
+| Id | Title | Competencies | Scope | Last scored | Used in |
+| --- | --- | --- | --- | --- | --- |
+| [S-01](#s-01) | {title} | {competency}, {competency} | {task \| project \| multi-team, or "unset"} | {score}/4, {YYYY-MM-DD}, or "never" | {company · stage, YYYY-MM-DD; …} |
 
 ## S-01 · {Title}
 
 - Competencies: {from the list below}
+- Scope: {task | project | multi-team}
 - When: {year}, at {company}
 
 ### Situation
@@ -47,9 +48,13 @@
 
 Tag stories only with these, so coverage can be counted: `ownership`, `conflict`, `failure`, `ambiguity`, `influence`, `impact`, `collaboration`, `learning`, `prioritization`, `technical-decision`, `mentoring`.
 
+## Scope
+
+How far the story reaches, which is what MOCK-FORMAT.md's [Scope by level](./MOCK-FORMAT.md#scope-by-level) scores against the level: `task` (a task or feature the user owned), `project` (a project with several people, ambiguity or real technical risk), `multi-team` (several teams or the organization). Set it from what the user did, not from the size of the company. A story written before scope existed reads `unset`: the first mock or bootstrap that uses it proposes one, written on the user's yes.
+
 ## The bootstrap
 
-Run it when `STORIES.md` is missing, or when a behavioral mock finds fewer than five stories. Aim for five to eight stories that together cover most competencies. Ask for one story at a time with a concrete prompt ("a time something you shipped broke in production", "a time you disagreed with your manager"), then ask through STAR until each part is there. Prompt next for a competency no story covers yet.
+Run it when `STORIES.md` is missing, or when a behavioral mock finds fewer than five stories. Aim for five to eight stories that together cover most competencies. Ask for one story at a time with a concrete prompt ("a time something you shipped broke in production", "a time you disagreed with your manager"), then ask through STAR until each part is there. Prompt next for a competency no story covers yet. When no story reaches the scope of the levels in `PROFILE.md`'s Targets, prompt next for one that does ("a time you led something across several teams").
 
 Done when there are at least five stories, or the user stopped, and the Index lists every story.
 
