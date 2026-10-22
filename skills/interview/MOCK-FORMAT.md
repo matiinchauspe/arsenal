@@ -11,7 +11,7 @@ Settle, from the argument, `STATUS.md`, the day's plan row or the user:
 - **Mode**: **drill** (out of character after each question, then one retry) or **simulation** (in character to the end, like the real thing).
 - **Length**: recruiter 20 minutes; behavioral, frontend, client-case and negotiation 30; live coding and system design 45. The user may shorten it. A stage with a known format sets the length and the rules instead, and the mock replicates them: 30 seconds to read, one take, five minutes to answer.
 
-Choose the questions in this order: real questions from `QUESTIONS.md` for this company and type, then what the company dossier says it asks, then the weak spots in `QUESTIONS.md`, then questions fit for the level. Never repeat a question the user already answered in a mock, unless it is a retry the plan asked for.
+Choose the questions in this order: real questions from `QUESTIONS.md` for this company and type, then what the company dossier says it asks, then the weak spots in `QUESTIONS.md`, then questions fit for the level. Never repeat a question the user already answered in a mock, unless it is a retry the plan asked for. A live-coding mock chooses its problem as [Live coding](#live-coding) lays out.
 
 Number the mock with the highest number under the folder's `mocks/` plus one, and note the start time with `date`.
 
@@ -41,13 +41,23 @@ In a drill, step out after each question for its scores and one fix, then offer 
 
 ### Live coding
 
+**The problem.** A stage the company dossier says is practical (build an endpoint, refactor, consume an API) gets a problem written for it, close to what the company asks, with no link. Any other live-coding stage, one the dossier says nothing about included, takes a real problem with a link, in this order:
+
+1. A real question from `QUESTIONS.md` for this company.
+2. A problem the company dossier cites, with its link.
+3. From [PROBLEMS.md](./PROBLEMS.md): a pattern `PATTERNS.md` has never seen, then its weakest pattern, by [PATTERNS-FORMAT.md](./PATTERNS-FORMAT.md)'s rule.
+
+Difficulty follows the level: mid easy or medium, senior medium, staff medium or hard. Never a problem already in the Log of `PATTERNS.md`, unless the plan asks for a retry.
+
 The mock lives in `mocks/{NNNN}-live-coding/`, in the language and test runner of `PROFILE.md`:
 
-- `PROBLEM.md`: the statement, two examples and the constraints. No tests.
+- `PROBLEM.md`: for a linked problem, its title and link, the function signature in the mock's language and the constraints that matter, never the statement: the user reads it on the site. For a written problem, the statement, two examples and the constraints. No tests either way.
 - `solution.{ext}`: an empty function with its signature.
 - `solution.test.{ext}`: empty. The user's own tests go here, and they count.
 
 Before the user starts, write the **hidden tests** (the edge cases a strong candidate covers) into the system temp directory, outside the interview home, so they are fixed before any code exists and the user cannot see them. Read the solution file on every turn, as an interviewer watches the shared editor, and probe what it shows. When the user says they are done, or the time is up, move the hidden tests into the folder and run both suites. When the folder cannot run them as it is, set up the minimum the runner needs (a `package.json`, say) and tell the user.
+
+A linked problem's hidden tests come from what the agent knows of it, and the site cannot be read, so **the official statement wins**: a hidden test the user shows contradicts it is dropped, and the record says so. After the mock the user may submit to the site's judge; its verdict goes into the record as a second piece of evidence and never changes a score.
 
 ### System design
 
@@ -99,6 +109,9 @@ Write `mocks/{NNNN}-{type}.md` under the process, or under `practice/` for pract
 - Date: {YYYY-MM-DD}, {start}–{end} ({minutes} min)
 - Process: {company · role, or "practice"}
 - Level: {level} · Language: {language}
+- Problem (live coding): [{title}]({link}) · {pattern} · {difficulty}, or "written"
+- Hidden tests (live coding): {passed} of {total}{; dropped "{test}": it contradicts the statement}
+- Judge (linked problem): {the site's verdict, or "not submitted"}
 
 ## Q1 · {the question}
 
@@ -126,6 +139,7 @@ Then update the root:
 
 - `QUESTIONS.md`: one Log row per question, as QUESTIONS-FORMAT.md lays out, and the weak spots rebuilt.
 - `STORIES.md`: the stories used get their Last scored and Used in; a better version the mock suggested is proposed, and written only on the user's yes.
+- `PATTERNS.md`: for a live-coding mock with a linked problem, its Log row and Coverage rebuilt, as PATTERNS-FORMAT.md lays out; created by the first one.
 - `fit.md`: the plan row's Done mark, when the mock belongs to a process.
 
 Done when the record is written, every score in it carries a quote or is a 1, and the root is updated.
