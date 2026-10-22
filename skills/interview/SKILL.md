@@ -9,7 +9,7 @@ Preparing for an interview is training for a match: it has a date and a known fo
 
 ## Locating the work
 
-The **interview home** is `$ARSENAL_INTERVIEWS_HOME` when set, else `~/interviews`. Its root holds `PROFILE.md`, `STORIES.md`, `QUESTIONS.md` and `practice/` (mocks tied to no process). Each **process** (one role at one company) gets one folder: `<interview home>/<company>/<YYYY-MM-role>/`, with the month it started.
+The **interview home** is `$ARSENAL_INTERVIEWS_HOME` when set, else `~/interviews`. Its root holds `PROFILE.md`, `STORIES.md`, `QUESTIONS.md`, `PATTERNS.md` (once a live-coding mock has linked a problem) and `practice/` (mocks tied to no process). Each **process** (one role at one company) gets one folder: `<interview home>/<company>/<YYYY-MM-role>/`, with the month it started.
 
 1. **No argument**, or an argument with no company (`mock behavioral`): the intent is **Practice**.
 2. Otherwise split the argument at its first colon into the company and the rest. Slug the company in kebab-case; if it is close to an existing company folder, ask whether it is the same company.
@@ -71,7 +71,7 @@ Done when `STATUS.md` exists with the level, the language and at least the next 
 
 Hand two questions to `research`, in the background so the setup goes on:
 
-- On the company's topic: how it interviews for this role, and what it builds and with which stack.
+- On the company's topic: how it interviews for this role, and what it builds and with which stack. When it codes live, whether the problems are algorithmic or practical, and which algorithm problems it has asked, each with its link: LeetCode's company tags are paid, so the free sources (`github.com/liquidslr/leetcode-company-wise-problems`, interview reports on LeetCode Discuss) are where to look.
 - On the market topic for the role, level and region in `PROFILE.md`: the compensation range. Skip it when that topic holds a fresh answer.
 
 A host that cannot run `research` in the background runs it after the checkpoint. When the answers return, close everything that waited on them, in the same turn and not at a later stage:
@@ -96,11 +96,12 @@ Done when the user confirms the plan.
 
 ## Practice
 
-The root is the readiness every process draws on, so practice with no process aims at the root's weak points. Read `QUESTIONS.md`, the index of `STORIES.md`, and every `STATUS.md` in state `open`. Show:
+The root is the readiness every process draws on, so practice with no process aims at the root's weak points. Read `QUESTIONS.md`, the index of `STORIES.md`, `PATTERNS.md` when it exists, and every `STATUS.md` in state `open`. Show:
 
 - Each open process with its next stage, its date and the days left.
 - The three weakest spots, by QUESTIONS-FORMAT.md's rule, each with its latest evidence.
-- The competencies no story covers.
+- The competencies no story covers, and whether any story reaches the scope of the levels in `PROFILE.md`'s Targets.
+- The patterns never seen and the weak patterns, by [PATTERNS-FORMAT.md](./PATTERNS-FORMAT.md)'s rule, when the user's targets include live coding.
 
 Then propose one mock: its type, its mode and why. When an open process has a stage within 3 days, propose that stage's mock under that process instead. With an argument naming a type, skip the proposal and run that one. A mock with no process is written under `practice/`, and its mode is drill unless the user asks for a simulation.
 
@@ -110,7 +111,7 @@ Done when the user has the overview and has run a mock, or said no.
 
 Read [MOCK-FORMAT.md](./MOCK-FORMAT.md) and follow it. The mode comes from the day's row in `fit.md` (drill or simulation); the user's word overrides it. A mock that touches a story updates `STORIES.md` only with the user's confirmation.
 
-Done when MOCK-FORMAT.md's record is written, and `QUESTIONS.md`, `STORIES.md` and the plan row are updated.
+Done when MOCK-FORMAT.md's record is written, and `QUESTIONS.md`, `STORIES.md`, `PATTERNS.md` (for a linked live-coding problem) and the plan row are updated.
 
 ## Cheat sheet
 
