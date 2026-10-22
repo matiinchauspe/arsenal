@@ -4,6 +4,23 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.8.0] - 2026-10-22
+
+### Changed
+
+- **`idea`**: Generate proposes ideas from signals found in the market, not from memory.
+  - `generate: <starting point>` hands `research` a question that hunts for signals: repeated
+    complaints, people paying for a manual workaround, resented incumbents, a law or platform change
+    that forces people to act; and, for each one, what already solves it and at what cost. Whatever the
+    user said (a problem, an industry, a skill, a hunch) goes in as leads, re-verified and never taken
+    as a source.
+  - `generate` alone runs an open scan and names the markets where signals cluster;
+    `generate quick: <starting point>` skips the research and marks each idea `Signal: none (from memory)`.
+  - Each proposed idea rests on one sourced signal; a well-solved signal is left out, and when no signal
+    holds an idea Generate says so instead of filling the list from memory. The picked idea keeps its
+    signal as its Origin in `MAP.md`, and its assumptions still start `unknown`.
+  - New offers Generate when a description names a direction but no offer.
+
 ## [0.7.1] - 2026-10-22
 
 ### Fixed

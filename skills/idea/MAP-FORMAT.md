@@ -10,6 +10,7 @@
 - Model: subscription | transactional | one-time | ads
 - Created: {YYYY-MM-DD}
 - Research topics: [{topic}]({research home}/{topic}/TOPIC.md), ...
+- Origin: [{the signal}]({research home}/{topic}/TOPIC.md#{section}) (only for an idea Generate found from a signal)
 
 ## View
 
@@ -170,5 +171,5 @@ The Log is append-only. Every intent that changes the idea writes one line: an a
 ```md
 # Ideas not picked
 
-- {YYYY-MM-DD} · {pitch} · Pays: {who} · Would die if: {the assumption most likely to kill it} · From: {the starting point}
+- {YYYY-MM-DD} · {pitch} · Pays: {who} · Signal: [{the signal}]({research home}/{topic}/TOPIC.md#{section}), or none (from memory) · Would die if: {the assumption most likely to kill it} · From: {the starting point, or open scan}
 ```
