@@ -21,6 +21,7 @@
 ```
 
 - A mock row's score is the average of the question's scored criteria (`n/a` left out), to one decimal, marked `prepared` when the attempt was. A real row's score is the user's own rating, marked `self`.
+- A live-coding question with a linked problem writes its Question as `[{title}]({link}) · {pattern}`, so the Log and `PATTERNS.md` point at the same problem.
 - **A weak spot** is a criterion whose last five scores average below 3, counting only unseen attempts and leaving out `n/a`. It needs at least three scores from at least two mocks: before that it is too early to call, and it is left out. Rebuild the table after each mock or debrief, weakest first; the three at the top are what Practice proposes.
 - The Log is append-only. A real question is the most valuable row in the file: the next mock of its type for that company starts from it.
 

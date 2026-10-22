@@ -7,11 +7,11 @@ A mock is one practice interview: the agent plays the interviewer, then steps ou
 Settle, from the argument, `STATUS.md`, the day's plan row or the user:
 
 - **Type**: `recruiter`, `behavioral`, `live-coding`, `system-design`, `frontend`, `client-case` or `negotiation`. A `client-case` is a client's business problem answered to the client: the case of a forward deployed, solutions or consulting role, where the listener is a buyer, not an engineer. A stage that fits no type takes the closest one, and the criteria of its rubric that do not fit the stage are named at setup.
-- **Level** and **company**: the process's, or the user's targets in `PROFILE.md` for practice.
+- **Level** and **company**: the process's, or the highest level in `PROFILE.md`'s Targets for practice.
 - **Mode**: **drill** (out of character after each question, then one retry) or **simulation** (in character to the end, like the real thing).
 - **Length**: recruiter 20 minutes; behavioral, frontend, client-case and negotiation 30; live coding and system design 45. The user may shorten it. A stage with a known format sets the length and the rules instead, and the mock replicates them: 30 seconds to read, one take, five minutes to answer.
 
-Choose the questions in this order: real questions from `QUESTIONS.md` for this company and type, then what the company dossier says it asks, then the weak spots in `QUESTIONS.md`, then questions fit for the level. Never repeat a question the user already answered in a mock, unless it is a retry the plan asked for.
+Choose the questions in this order: real questions from `QUESTIONS.md` for this company and type, then what the company dossier says it asks, then the weak spots in `QUESTIONS.md`, then questions fit for the level. Never repeat a question the user already answered in a mock, unless it is a retry the plan asked for. A live-coding mock chooses its problem as [Live coding](#live-coding) lays out.
 
 Number the mock with the highest number under the folder's `mocks/` plus one, and note the start time with `date`.
 
@@ -41,13 +41,23 @@ In a drill, step out after each question for its scores and one fix, then offer 
 
 ### Live coding
 
+**The problem.** A stage the company dossier says is practical (build an endpoint, refactor, consume an API) gets a problem written for it, close to what the company asks, with no link. Any other live-coding stage, one the dossier says nothing about included, takes a real problem with a link, in this order:
+
+1. A real question from `QUESTIONS.md` for this company, linked to its problem in PROBLEMS.md or the dossier when one matches, else written as a practical one is.
+2. A problem the company dossier cites, with its link, unless the user cannot open it (a LeetCode Premium problem without Premium).
+3. From [PROBLEMS.md](./PROBLEMS.md): the first pattern in the Coverage order of `PATTERNS.md`, by [PATTERNS-FORMAT.md](./PATTERNS-FORMAT.md)'s rule, that still has a problem at the level outside its Log; with no `PATTERNS.md`, every pattern is never seen, and among never-seen patterns the first in PROBLEMS.md comes first. When no pattern has one, propose a retry of the weakest problem, or the closest difficulty, and tell the user.
+
+Difficulty follows the level: mid easy or medium, senior medium, staff medium or hard. Never a problem already in the Log of `PATTERNS.md`, unless the plan asks for a retry. A linked problem not in PROBLEMS.md takes the closest of its eighteen patterns, named at setup.
+
 The mock lives in `mocks/{NNNN}-live-coding/`, in the language and test runner of `PROFILE.md`:
 
-- `PROBLEM.md`: the statement, two examples and the constraints. No tests.
+- `PROBLEM.md`: for a linked problem, its title and link, the function signature in the mock's language and the constraints that matter, never the statement: the user reads it on the site. For a written problem, the statement, two examples and the constraints. No tests either way.
 - `solution.{ext}`: an empty function with its signature.
 - `solution.test.{ext}`: empty. The user's own tests go here, and they count.
 
 Before the user starts, write the **hidden tests** (the edge cases a strong candidate covers) into the system temp directory, outside the interview home, so they are fixed before any code exists and the user cannot see them. Read the solution file on every turn, as an interviewer watches the shared editor, and probe what it shows. When the user says they are done, or the time is up, move the hidden tests into the folder and run both suites. When the folder cannot run them as it is, set up the minimum the runner needs (a `package.json`, say) and tell the user.
+
+A linked problem's hidden tests come from what the agent knows of it, and the site cannot be read, so **the official statement wins**: a hidden test the user shows to contradict it is dropped, and the record says so. Before writing the record, offer the user to submit to the site's judge; its verdict goes into the record as a second piece of evidence and never changes a score. A judge's "accepted" on code a hidden test failed is the user showing that test contradicts the statement: drop it as above. A verdict the user brings later is added to that record's Judge line.
 
 ### System design
 
@@ -70,12 +80,24 @@ Then give the **verdict** for the level (strong hire · hire · no hire · stron
 | Type | Criteria |
 | --- | --- |
 | `recruiter` | Pitch in about a minute, tied to the role · why this company, from something specific about it · the expectations question answered from the anchor, or deflected until the range is known, never with a number below the anchor · logistics clear (availability, location, notice) |
-| `behavioral` | STAR complete · "I", not "we": the user's own actions · a measurable or concrete result · reflection: what was learned · two to three minutes, timed as above · answers the question asked |
+| `behavioral` | STAR complete · "I", not "we": the user's own actions · a measurable or concrete result · reflection: what was learned · two to three minutes, timed as above · answers the question asked · scope fits the level, by [Scope by level](#scope-by-level) |
 | `live-coding` | Clarifies and walks an example before coding · states the approach and its complexity before coding · thinks out loud · correct on the hidden tests · writes their own tests and edge cases · readable code · finishes in time |
 | `system-design` | Requirements first, functional and not · estimates the scale · a high-level design before the deep dive · data model and API · names the bottlenecks and scales them · tradeoffs said out loud · drives the conversation |
 | `client-case` | Restates the problem with the client's own numbers · states the assumptions, and what to ask the client · a concrete first solution, in the client's language · names the risks and how trust is earned (data, security, adoption) · tradeoffs said out loud · a next step with scope and date |
 | `frontend` | Fundamentals right (event loop, rendering, the cascade, the browser) · component and API design · state and data fetching · performance · accessibility · testing · tradeoffs |
 | `negotiation` | Does not accept on the spot · anchors with a reason · asks for the full package · counters toward the target · stays warm · walks away below the floor |
+
+### Scope by level
+
+The behavioral criterion **scope fits the level** asks whether the story shows the reach the level is hired for. A story whose scope is a lower level's scores at most 2 on it, however well told. It is scored from what the user told, not from the story's Scope in `STORIES.md`. A level the table does not name takes the nearest row (junior takes mid, principal takes staff), named at setup. A question no story answers (why this company, say) scores it `n/a`.
+
+| Level | Scope the story shows | Story scope in `STORIES.md` |
+| --- | --- | --- |
+| mid | A task or feature the user owned end to end. No source defines a mid bar: this row is a baseline | `task` |
+| senior | A project with several people, ambiguous requirements or significant technical risk; influence without authority | `project` |
+| staff | Several teams or the organization: competing priorities between teams, technical direction | `multi-team` |
+
+Sources: Tech Interview Handbook, *Behavioral interviews for senior candidates* (seniors "proactively demonstrate their scope"; stories "acceptable for more junior candidates can raise red flags"); Will Larson, *Staff Engineer* (staff is "evidence of impact at the company scope").
 
 ## 4. The record
 
@@ -87,6 +109,9 @@ Write `mocks/{NNNN}-{type}.md` under the process, or under `practice/` for pract
 - Date: {YYYY-MM-DD}, {start}–{end} ({minutes} min)
 - Process: {company · role, or "practice"}
 - Level: {level} · Language: {language}
+- Problem (live coding): [{title}]({link}) · {pattern} · {difficulty}, or "written"
+- Hidden tests (live coding): {passed} of {total, the dropped ones left out}{; dropped "{test}": it contradicts the statement}
+- Judge (linked problem): {the site's verdict, or "not submitted"}
 
 ## Q1 · {the question}
 
@@ -113,7 +138,8 @@ Write `mocks/{NNNN}-{type}.md` under the process, or under `practice/` for pract
 Then update the root:
 
 - `QUESTIONS.md`: one Log row per question, as QUESTIONS-FORMAT.md lays out, and the weak spots rebuilt.
-- `STORIES.md`: the stories used get their Last scored and Used in; a better version the mock suggested is proposed, and written only on the user's yes.
+- `STORIES.md`: the stories used get their Last scored and Used in; a story whose Scope reads `unset` gets one proposed from what the user told, and a better version the mock suggested is proposed; both are written only on the user's yes.
+- `PATTERNS.md`: for a live-coding mock with a linked problem, its Log row and Coverage rebuilt, as PATTERNS-FORMAT.md lays out; created by the first one.
 - `fit.md`: the plan row's Done mark, when the mock belongs to a process.
 
 Done when the record is written, every score in it carries a quote or is a 1, and the root is updated.

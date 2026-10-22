@@ -89,10 +89,10 @@ agent and the other skills reach on their own: `quote`, `research` and `teach` d
 
 Preparation lives in `$ARSENAL_INTERVIEWS_HOME` when the variable is set, else `~/interviews/`, never in a project's repo:
 
-- The root is your readiness, shared by every process: `PROFILE.md` (experience, targets, the languages you code and interview in, your compensation anchor, target and floor), `STORIES.md` (a STAR story bank tagged by competency) and `QUESTIONS.md` (every question you faced, in mocks and for real, with your weak spots). The first run interviews you to write them.
+- The root is your readiness, shared by every process: `PROFILE.md` (experience, targets, the languages you code and interview in, your compensation anchor, target and floor), `STORIES.md` (a STAR story bank tagged by competency and scope), `QUESTIONS.md` (every question you faced, in mocks and for real, with your weak spots) and, after your first linked live-coding mock, `PATTERNS.md` (the algorithm patterns you have practiced, and the weak ones). The first run interviews you to write them.
 - Each process gets `<company>/<YYYY-MM-role>/`, with `STATUS.md`, `fit.md` (the JD against your profile, the gaps, and a plan counted back from the next stage's date), `mocks/`, `debriefs/`, a printable cheat sheet before each stage, and `offer.md`.
 
-Mocks score every criterion on a quote from your answer, and a live-coding mock runs hidden tests against code you write in a real file. Tell it what happens as it happens: `acme: had the technical, they asked X` writes a debrief, `acme: they offered X` compares the offer and proposes the counter. `/arsenal:interview` with no argument practices your weak spots. It leans on `research` for the company and the market, on `teach` for gaps that need weeks, and on `diagram` for system designs.
+Mocks score every criterion on a quote from your answer; a behavioral story is scored against the scope your level is hired for, and a live-coding mock links a real LeetCode problem picked by the patterns you lack and runs hidden tests against code you write in a real file. Tell it what happens as it happens: `acme: had the technical, they asked X` writes a debrief, `acme: they offered X` compares the offer and proposes the counter. `/arsenal:interview` with no argument practices your weak spots. It leans on `research` for the company and the market, on `teach` for gaps that need weeks, and on `diagram` for system designs.
 
 ### `idea`: where your ideas live
 

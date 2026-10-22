@@ -50,4 +50,5 @@ The plan is counted back from the next stage's date. The days left decide what i
 - **Respect the time.** A day's work fits the prep hours in `PROFILE.md`.
 - **Space and mix.** A weak type returns on spaced days (one, three and seven days later), not on consecutive ones, and drills mix types rather than repeating one.
 - **Unknown kind.** A stage whose kind is `unknown` is planned from what the company dossier says about it, and as behavioral until it does.
+- **Scope gap.** When the process has a behavioral stage and no story in `STORIES.md` reaches the scope of its level (MOCK-FORMAT.md's [Scope by level](./MOCK-FORMAT.md#scope-by-level)), that is a gap like any other: the plan drafts such a story when the user has one untold, or the gap reads out of reach with how to talk about it honestly.
 - **Replan forward.** When a date changes or a debrief lands, rewrite the rows from today on. Past rows stay with their Done mark: a skipped day is ✗, not deleted.
