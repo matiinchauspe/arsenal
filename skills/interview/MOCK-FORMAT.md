@@ -51,8 +51,8 @@ Difficulty follows the level: mid easy or medium, senior medium, staff medium or
 
 The mock lives in `mocks/{NNNN}-live-coding/`, in the language and test runner of `PROFILE.md`:
 
-- `PROBLEM.md`: for a linked problem, its title and link, the function signature in the mock's language and the constraints that matter, never the statement: the user reads it on the site. For a written problem, the statement, two examples and the constraints. No tests either way.
-- `solution.{ext}`: an empty function with its signature.
+- `PROBLEM.md`: for a linked problem, its title and link, the signature in the mock's language (a class with its methods when the problem is a design one, such as an LRU cache) and the constraints that matter, never the statement: the user reads it on the site. For a written problem, the statement, two examples and the constraints. No tests either way.
+- `solution.{ext}`: an empty function, or class, with its signature, and the types the signature uses that the site defines for the user (`ListNode`, `TreeNode`), with helpers that build them from arrays and back, so both suites can state their cases as arrays.
 - `solution.test.{ext}`: empty. The user's own tests go here, and they count.
 
 Before the user starts, write the **hidden tests** (the edge cases a strong candidate covers) into the system temp directory, outside the interview home, so they are fixed before any code exists and the user cannot see them. Read the solution file on every turn, as an interviewer watches the shared editor, and probe what it shows. When the user says they are done, or the time is up, move the hidden tests into the folder and run both suites. When the folder cannot run them as it is, set up the minimum the runner needs (a `package.json`, say) and tell the user.

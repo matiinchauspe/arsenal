@@ -4,6 +4,15 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.7.1] - 2026-10-22
+
+### Fixed
+
+- **`interview`**: a linked live-coding problem that is a design one (LRU cache, min stack, trie) gets
+  a class with its methods instead of a function, and one built on `ListNode` or `TreeNode` gets those
+  types and helpers to build them from arrays, which the site defines for the user and a local
+  workspace lacks.
+
 ## [0.7.0] - 2026-10-22
 
 ### Changed
