@@ -1,8 +1,8 @@
 ---
 name: idea
-description: Clarify a product, startup or digital-business idea into a map of falsifiable assumptions, each researched by trying to refute it, with ranged unit economics and a dated verdict the user decides on.
+description: Clarify a product, startup or digital-business idea into a map of falsifiable assumptions, each researched by trying to refute it, with ranged unit economics and a dated verdict the user decides on; or generate ideas from signals found in the market.
 disable-model-invocation: true
-argument-hint: "<idea>: what to do (an idea to map, a test result, verdict), generate: <starting point>, or nothing to list your ideas"
+argument-hint: "<idea>: what to do (an idea to map, a test result, verdict), generate: <starting point, or nothing to scan the market>, generate quick: <starting point>, or nothing to list your ideas"
 ---
 
 An idea is a building on ground nobody has surveyed. This skill never promises the building stands: it surveys the ground fast and says where it will not hold. Each idea is a **map of falsifiable assumptions** in seven zones, and every step lowers the uncertainty with facts that are labeled, sourced and dated. **Research tries to break an assumption, never to confirm it**: an agent asked to confirm an idea always does, and only what survives an attempt to break it is worth anything. Desk research is the default and is fast; a real-world test is offered, never required. The decision is always the user's.
@@ -12,14 +12,14 @@ An idea is a building on ground nobody has surveyed. This skill never promises t
 The **ideas home** is `$ARSENAL_IDEAS_HOME` when set, else `~/ideas`. Each idea is one folder, `<ideas home>/<slug>/`, holding `MAP.md` and `STATUS.md`; `<ideas home>/IDEAS.md` keeps the ideas Generate proposed and the user did not pick.
 
 1. **No argument:** the intent is **List**.
-2. An argument whose part before the first colon is exactly `generate` (or the argument `generate` alone) is **Generate**; what follows its colon is the starting point.
+2. An argument whose part before the first colon is exactly `generate` or `generate quick` (or the argument `generate` alone) is **Generate**, quick for the second; what follows its colon is the starting point, and an empty one means an open scan.
 3. Otherwise split the argument at its first colon into the idea and the rest. Slug the idea in kebab-case; if it is close to an existing idea's folder, ask whether it is the same idea.
 4. Read the intent from the rest; when it fits none of these, ask what the user wants to do:
 
 | Intent | Example argument | Idea folder | Then |
 | --- | --- | --- | --- |
 | **List** | (nothing) | none | [List](#list) |
-| **Generate** | `generate: I'm an accountant and small firms keep asking me for the same report` | none | [Generate](#generate) |
+| **Generate** | `generate: I'm an accountant and small firms keep asking me for the same report`, `generate`, `generate quick: logistics` | none | [Generate](#generate) |
 | **New** | `salon-bookings: salons take a deposit with each booking so no-shows cost the client` | missing: create it | [New](#new) |
 | **Continue** | `salon-bookings`, `salon-bookings: go on` | exists | [Continue](#continue) |
 | **Test** | `salon-bookings: design the interview for P1` | exists | [TEST-FORMAT.md](./TEST-FORMAT.md), Test |
@@ -43,11 +43,16 @@ Done when the user has the table, or was asked for the first idea.
 
 ## Generate
 
-When the argument gave no starting point, ask for one: a **problem** the user has seen, an **industry** they know, or a **skill** they have. Never ask for a profile: the starting point is all Generate needs.
+A generated idea starts from a **signal**: a sourced, dated fact showing that people lose money or time on a problem today. An idea pulled from memory is a guess about a market nobody looked at, so Generate researches before it proposes.
 
-1. Propose 3 to 5 ideas, each as: a one-line pitch, who pays, and **the assumption most likely to kill it**, phrased so a fact could break it. Do not research yet: this is a quick filter, and an idea earns research by being picked.
-2. The user picks one, combines two, or asks for another round.
-3. Append the ideas not picked to `IDEAS.md` as MAP-FORMAT.md lays out, and run **New** on the picked one.
+The starting point is whatever the user gives: a **problem** they have seen, an **industry** they know, a **skill** they have, a hunch, an idea half thought through, or any mix. With none, the scan is **open**: the research picks where to look. Never ask for a profile, and never ask for a starting point the user did not give.
+
+1. **Signals:** hand `research` one question that hunts for signals, in the background when the host can; tell the user it started, and propose when it returns. The topic is the industry the starting point names (`salons-ar`), reusing one another idea created; an open scan, or a starting point that names no industry, uses the cross-cutting `market-signals` topic. Everything the user said goes into the question as **leads**: a hunch ("clinics still book by WhatsApp"), a competitor they named, a figure they remember. The research looks for signals around the leads first, and re-verifies each one, never taking it as a source; it also asks what contradicts a lead, since a hunch is an assumption like any other. The section's kind is `practice`. The question asks for concrete, sourced cases of: complaints repeated in forums, reviews or communities; people paying for a manual workaround (spreadsheets, freelancers, an agency) to do a repetitive task; incumbents with bad reviews or prices their users resent; a recent law, platform change or price change that forces people to act. For each signal it also asks **what already solves it and what that costs**: a pain with a cheap solution its users like is not an opening. An open scan asks for signals across markets and names the 2 or 3 where they cluster.
+2. **Propose** 3 to 5 ideas, each resting on one signal from that section, as: a one-line pitch, who pays, the signal with its link, what already solves it, and **the assumption most likely to kill it**, phrased so a fact could break it. A signal shows that the pain exists, never that someone pays to remove it: that is what Continue tries to break. Leave out a signal the research found already well solved, and say so. When no signal holds an idea, say so and ask for a narrower starting point: never fill the list from memory.
+3. The user picks one, combines two, or asks for another round. Another round first uses the signals no idea used yet, and runs a new signals question only when none is left.
+4. Append the ideas not picked to `IDEAS.md` as MAP-FORMAT.md lays out, and run **New** on the picked one, carrying its signal.
+
+**Quick** (`generate quick: <starting point>`) skips step 1 and proposes from memory, as a fast filter; it needs a starting point, so ask for one when it has none. Each of its ideas says `Signal: none (from memory)` instead of a signal and what already solves it.
 
 Done when one idea went to New and the rest are in `IDEAS.md`.
 
@@ -55,10 +60,10 @@ Done when one idea went to New and the rest are in `IDEAS.md`.
 
 Read [MAP-FORMAT.md](./MAP-FORMAT.md) and [ECONOMICS-FORMAT.md](./ECONOMICS-FORMAT.md).
 
-1. Write the pitch in one line: who, what pain, what you offer. Ask only what the description leaves impossible to write.
+1. Write the pitch in one line: who, what pain, what you offer. Ask only what the description leaves impossible to write. A description that names a direction but no offer ("something for accountants") is a starting point, not an idea: offer to run Generate with it, and on a yes go there.
 2. Propose the revenue model (ECONOMICS-FORMAT.md, Models), and ask for the target (ECONOMICS-FORMAT.md, Inputs).
 3. Propose 2 to 4 assumptions per zone, each falsifiable and with its impact, including the two every idea starts with (MAP-FORMAT.md, Assumptions). Rewrite a vague one until a fact could break it, and say what you rewrote.
-4. **Checkpoint:** show the pitch, the model, the target and the assumptions. The user corrects, removes or adds; then write `MAP.md`, and `STATUS.md` with the state `exploring`, and draw the view (MAP-FORMAT.md, The view).
+4. **Checkpoint:** show the pitch, the model, the target and the assumptions. An idea that came from Generate with a signal keeps it as its Origin (MAP-FORMAT.md), and its topic joins the Research topics; its assumptions still start `unknown`, since the signal was found by looking for pain, not by trying to break it. The user corrects, removes or adds; then write `MAP.md`, and `STATUS.md` with the state `exploring`, and draw the view (MAP-FORMAT.md, The view).
 5. Offer to start Continue now.
 
 Done when `MAP.md` holds the pitch, the model and every zone with at least one assumption, the user has seen them at the checkpoint, and the Log has the line.

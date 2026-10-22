@@ -108,7 +108,10 @@ Ideas live in `$ARSENAL_IDEAS_HOME` when the variable is set, else `~/ideas/`, n
 - The economics run three scenarios through `economics.py` (Python 3, standard library): LTV, LTV/CAC,
   payback, customers and market share needed for your target, and the variable the result hinges on.
 
-`/arsenal:idea generate: <a problem, an industry or a skill>` proposes ideas to pick from;
+`/arsenal:idea generate: <a problem, an industry or a skill>` researches market signals (complaints,
+paid workarounds, resented incumbents, forced changes) and proposes ideas resting on them, each with its
+source; `generate` alone scans the market openly, and `generate quick: <starting point>` skips the
+research;
 `/arsenal:idea <idea>` researches the riskiest open assumption; `<idea>: verdict` says discard, not
 enough information, or worth testing, with the best reason not to do it and what the idea demands. The
 map's view is drawn with `diagram`.
