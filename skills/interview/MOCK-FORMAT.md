@@ -70,12 +70,24 @@ Then give the **verdict** for the level (strong hire · hire · no hire · stron
 | Type | Criteria |
 | --- | --- |
 | `recruiter` | Pitch in about a minute, tied to the role · why this company, from something specific about it · the expectations question answered from the anchor, or deflected until the range is known, never with a number below the anchor · logistics clear (availability, location, notice) |
-| `behavioral` | STAR complete · "I", not "we": the user's own actions · a measurable or concrete result · reflection: what was learned · two to three minutes, timed as above · answers the question asked |
+| `behavioral` | STAR complete · "I", not "we": the user's own actions · a measurable or concrete result · reflection: what was learned · two to three minutes, timed as above · answers the question asked · scope fits the level, by [Scope by level](#scope-by-level) |
 | `live-coding` | Clarifies and walks an example before coding · states the approach and its complexity before coding · thinks out loud · correct on the hidden tests · writes their own tests and edge cases · readable code · finishes in time |
 | `system-design` | Requirements first, functional and not · estimates the scale · a high-level design before the deep dive · data model and API · names the bottlenecks and scales them · tradeoffs said out loud · drives the conversation |
 | `client-case` | Restates the problem with the client's own numbers · states the assumptions, and what to ask the client · a concrete first solution, in the client's language · names the risks and how trust is earned (data, security, adoption) · tradeoffs said out loud · a next step with scope and date |
 | `frontend` | Fundamentals right (event loop, rendering, the cascade, the browser) · component and API design · state and data fetching · performance · accessibility · testing · tradeoffs |
 | `negotiation` | Does not accept on the spot · anchors with a reason · asks for the full package · counters toward the target · stays warm · walks away below the floor |
+
+### Scope by level
+
+The behavioral criterion **scope fits the level** asks whether the story shows the reach the level is hired for. A story whose scope is a lower level's scores at most 2 on it, however well told. A level the table does not name takes the nearest row (junior takes mid, principal takes staff), named at setup. A question no story answers (why this company, say) scores it `n/a`.
+
+| Level | Scope the story shows | Story scope in `STORIES.md` |
+| --- | --- | --- |
+| mid | A task or feature the user owned end to end. No source defines a mid bar: this row is a baseline | `task` |
+| senior | A project with several people, ambiguous requirements or significant technical risk; influence without authority | `project` |
+| staff | Several teams or the organization: competing priorities between teams, technical direction | `multi-team` |
+
+Sources: Tech Interview Handbook, *Behavioral interviews for senior candidates* (seniors "proactively demonstrate their scope"; stories "acceptable for more junior candidates can raise red flags"); Will Larson, *Staff Engineer* (staff is "evidence of impact at the company scope").
 
 ## 4. The record
 
