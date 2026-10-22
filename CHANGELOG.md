@@ -4,6 +4,23 @@ All notable changes to Arsenal are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/). The version is the one in `.claude-plugin/plugin.json`.
 
+## [0.7.0] - 2026-10-22
+
+### Changed
+
+- **`interview`**: behavioral stories are scored against the level, and live-coding mocks link real
+  problems.
+  - The behavioral rubric gains "scope fits the level": a task for mid, a project for senior, several
+    teams for staff, grounded in the Tech Interview Handbook and *Staff Engineer*. A story with a lower
+    level's scope scores at most 2. Stories carry a scope, and a process with no story at its level's
+    scope names it as a gap.
+  - `PROBLEMS.md`: 92 free LeetCode problems across NeetCode's 18 patterns, title and link only. A
+    live-coding mock picks the company's real questions first, then the dossier's, then the pattern
+    the user lacks, and `PATTERNS.md` tracks coverage and weak patterns. Practical stages still get a
+    written problem.
+  - Hidden tests yield to the official statement; the site's judge is a second piece of evidence that
+    never changes a score.
+
 ## [0.6.0] - 2026-10-20
 
 ### Added
